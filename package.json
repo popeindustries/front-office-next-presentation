@@ -1,0 +1,24 @@
+{
+  "name": "front-office-next-presentation",
+  "description": "Presentation for NRK, March 2019",
+  "version": "1.0.0",
+  "author": "Alexander Pope <alex@pope-industries.com>",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "dvlp": "^4.0.9",
+    "eslint": "^5.15.1",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.5",
+    "prettier": "^1.16.4"
+  },
+  "repository": "https://github.com/popeindustries/front-office-next-presentation.git",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "precommit": "lint-staged",
+    "start": "dvlp --silent --port 8888 src"
+  }
+}
