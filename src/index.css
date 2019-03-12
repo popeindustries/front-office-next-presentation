@@ -1,3 +1,5 @@
+@import './assets/base.css';
+
 /* VARS */
 :root {
   --black: #0b1728;
@@ -9,123 +11,6 @@
   --transition-timing-cubic-out: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 /* END VARS */
-
-/* FONTS */
-@font-face {
-  font-family: 'Avenir Next';
-  src: url('./assets/fonts/AvenirNext-Medium.woff2') format('woff2'),
-    url('./assets/fonts/AvenirNext-Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Avenir Next';
-  src: url('./assets/fonts/AvenirNext-Heavy.woff2') format('woff2'),
-    url('./assets/fonts/AvenirNext-Heavy.woff') format('woff');
-  font-weight: 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Avenir Next';
-  src: url('./assets/fonts/AvenirNext-Regular.woff2') format('woff2'),
-    url('./assets/fonts/AvenirNext-Regular.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Avenir Next';
-  src: url('./assets/fonts/AvenirNext-Bold.woff2') format('woff2'),
-    url('./assets/fonts/AvenirNext-Bold.woff') format('woff');
-  font-weight: bold;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Hack';
-  src: url('./assets/fonts/Hack-Regular.woff2') format('woff2'),
-    url('./assets/fonts/Hack-Regular.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-/* END FONTS */
-
-/* NORMALIZE */
-*,
-*:after,
-*:before {
-  box-sizing: border-box;
-}
-
-html {
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-}
-
-body {
-  margin: 0;
-}
-
-article,
-aside,
-details,
-figcaption,
-figure,
-footer,
-header,
-nav,
-section,
-summary {
-  display: block;
-}
-
-audio,
-canvas,
-progress,
-video {
-  display: inline-block;
-  vertical-align: baseline;
-}
-
-audio:not([controls]) {
-  display: none;
-  height: 0;
-}
-
-a {
-  background: transparent;
-}
-
-b,
-strong {
-  font-weight: bold;
-}
-
-img {
-  border: 0;
-}
-
-svg {
-  overflow: visible;
-}
-
-button,
-input,
-optgroup,
-select,
-textarea {
-  color: inherit;
-  font: inherit;
-  margin: 0;
-}
-
-button,
-select {
-  text-transform: none;
-}
-/* END NORMALIZE */
 
 html,
 body {
@@ -155,8 +40,8 @@ h5 {
 }
 h1 {
   font-size: 4vw;
-  font-weight: 900;
-  text-transform: uppercase;
+  font-weight: 400;
+  text-align: center;
 }
 h2 {
   font-size: 3.5vw;
@@ -283,4 +168,7 @@ pre.inline code {
 .note-progress {
   opacity: 0.3;
   font-weight: 900;
+}
+
+#title {
 }
