@@ -87,6 +87,12 @@ pre {
     }
   }
 }
+figcaption {
+  @include center;
+  background-color: $hot-pink;
+  color: $white;
+  padding: 0.25vw 0.5vw;
+}
 .slides {
   height: 56.25vw;
   left: 0;

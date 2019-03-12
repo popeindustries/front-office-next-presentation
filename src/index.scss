@@ -12,6 +12,7 @@
 
 #kurator {
   display: flex;
+  justify-content: center;
   figure {
     box-shadow: $global-shadow;
     margin: 1vw 2vw;
@@ -19,12 +20,6 @@
     position: relative;
     img {
       width: 100%;
-    }
-    figcaption {
-      @include center;
-      background-color: $black;
-      color: $white;
-      padding: 0.25vw 0.5vw;
     }
   }
 }
@@ -78,5 +73,30 @@
         width: 100%;
       }
     }
+  }
+}
+
+#front-office-next {
+  display: flex;
+  justify-content: center;
+  figure {
+    box-shadow: $global-shadow;
+    margin: 1vw 2vw;
+    overflow: hidden;
+    position: relative;
+    width: 30%;
+    img {
+      width: 100%;
+    }
+  }
+}
+
+#pixel {
+  .pixel {
+    @include center;
+    background-color: $black;
+    height: 1vw;
+    transform-origin: 50% 50%;
+    width: 1vw;
   }
 }
