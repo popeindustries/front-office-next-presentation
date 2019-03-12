@@ -28,3 +28,13 @@
     }
   }
 }
+
+#front-office {
+  display: flex;
+  img {
+    box-shadow: $global-shadow;
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+  }
+}
