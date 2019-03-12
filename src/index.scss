@@ -30,11 +30,53 @@
 }
 
 #front-office {
-  display: flex;
-  img {
-    box-shadow: $global-shadow;
-    display: block;
-    height: 100%;
+  figure {
     margin: 0 auto;
+    position: relative;
+    width: 35vw;
+    img {
+      box-shadow: $global-shadow;
+      display: block;
+      width: 100%;
+    }
+    & > span {
+      display: block;
+      position: absolute;
+      span {
+        @include center;
+        background-color: hsl(0, 0%, 100%, 0.9);
+        padding: 0 0.5vw;
+        white-space: nowrap;
+      }
+      &.highlight-house {
+        background-color: hsla(350, 100, 88, 0.5);
+        height: 100%;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+      &.highlight-floor {
+        background-color: hsla(249, 68, 55, 0.5);
+        height: 12vw;
+        left: 2.5vw;
+        top: 66%;
+        width: calc(100% - 5vw);
+      }
+      &.highlight-room {
+        background-color: hsla(130, 68%, 55%, 0.4);
+        height: 12vw;
+        left: 22.5vw;
+        top: 66%;
+        width: 10vw;
+      }
+      &.highlight-newsfeed {
+        background-color: hsla(205, 75%, 41%, 0.69);
+        height: 3vw;
+        left: 0;
+        text-align: right;
+        top: 3.75%;
+        width: 100%;
+      }
+    }
   }
 }
