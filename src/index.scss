@@ -1,0 +1,30 @@
+@import './assets/vars.scss';
+@import './assets/normalize.scss';
+@import './assets/fonts.scss';
+
+@import './assets/base.scss';
+
+#title {
+  h1 {
+    @include center;
+  }
+}
+
+#kurator {
+  display: flex;
+  figure {
+    box-shadow: $global-shadow;
+    margin: 1vw 2vw;
+    overflow: hidden;
+    position: relative;
+    img {
+      width: 100%;
+    }
+    figcaption {
+      @include center;
+      background-color: $black;
+      color: $white;
+      padding: 0.25vw 0.5vw;
+    }
+  }
+}

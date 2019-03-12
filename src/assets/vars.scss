@@ -1,0 +1,15 @@
+$black: #0b1728;
+$white: #fefefe;
+$border-width: 1.2vw;
+$global-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+$transition-duration: 400ms;
+$transition-duration-short: 300ms;
+$transition-duration-long: 800ms;
+$transition-timing-cubic-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+@mixin center() {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

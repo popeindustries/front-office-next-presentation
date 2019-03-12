@@ -1,0 +1,162 @@
+@import './vars.scss';
+
+html,
+body {
+  width: 100vw;
+  height: 200vh;
+}
+html {
+  background-color: $white;
+}
+body {
+  color: $black;
+  font-family: 'Avenir', sans-serif;
+  font-size: 16px;
+  font-variant: normal;
+  font-weight: 500;
+  overflow: hidden;
+  z-index: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: normal;
+  margin: 0;
+  padding: 0;
+}
+h1 {
+  font-size: 4vw;
+  font-weight: 200;
+  text-align: center;
+}
+h2 {
+  font-size: 3.5vw;
+  font-weight: 600;
+}
+p,
+ul,
+ol {
+  font-size: 2.5vw;
+}
+section {
+  height: 100%;
+  left: 0;
+  opacity: 1;
+  padding: $border-width;
+  position: absolute;
+  top: 0;
+  transition: all $transition-duration $transition-timing-cubic-out;
+  visibility: hidden;
+  width: 100%;
+  .presentation-notes & > .notes {
+    display: block;
+  }
+  .presentation-notes & > *:not(.notes) {
+    display: none !important;
+  }
+  &.show {
+    visibility: visible;
+  }
+  &.hide {
+    visibility: hidden;
+  }
+}
+code {
+  font-family: 'Hack', monospace;
+  font-size: 90%;
+}
+pre {
+  margin: 0 2vw;
+  width: auto;
+  code {
+    font-size: 1.8vw;
+    margin: 0 0 0 -6em;
+    padding: 0 !important;
+    background-color: transparent !important;
+    width: auto;
+  }
+  &.inline {
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    code {
+      display: inline-block;
+      margin-left: 0;
+    }
+  }
+}
+.slides {
+  height: 56.25vw;
+  left: 0;
+  position: absolute;
+  transform-origin: top left;
+  top: 0;
+  width: 100%;
+  .presentation-notes & {
+    height: 100%;
+  }
+  .dev & {
+    border: 1px solid red;
+  }
+}
+.clock {
+  color: $black;
+  font-size: 4vw;
+  opacity: 0.25;
+  position: absolute;
+  right: 1vw;
+  top: 0.5vw;
+  z-index: 100;
+}
+.notes {
+  background-color: white;
+  bottom: 0;
+  color: $black;
+  display: none;
+  font-family: sans-serif;
+  font-size: 4vw;
+  font-weight: 400;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  text-align: left;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  .dev & {
+    background-color: transparent;
+    display: block;
+    height: calc(100vh - 56.25vw);
+    line-height: 0.6em;
+    top: 100%;
+  }
+}
+.note {
+  font-size: inherit;
+  left: 50%;
+  margin: 0;
+  opacity: 0;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  visibility: visible;
+  width: 80%;
+  .dev & {
+    background-color: rgba(255, 255, 255, 0.8);
+    bottom: 0;
+    font-size: 1.8vw;
+    left: 0;
+    top: initial;
+    transform: none;
+    padding: 1em;
+    width: auto;
+  }
+}
+.note-progress {
+  opacity: 0.3;
+  font-weight: 900;
+}
