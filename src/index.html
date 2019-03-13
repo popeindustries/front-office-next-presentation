@@ -327,7 +327,41 @@
 
     <section id="streaming">
       <h1>#5 Streaming Renderer</h1>
+      <pre class="code pipe"><code class="js">
+        import { createServer } from &apos;http&apos;;
+        import { renderToStream } from &apos;@popeindustries/lit-html-server&apos;;
+        import template from './template.js';
+
+        createServer((req, res) => {
+          res.writeHead(200);
+          renderToStream(template()).pipe(res);
+        }).listen(3000);
+      </code></pre>
+      <img src="assets/images/server-timing.jpg">
+      <pre class="code buffer"><code class="js">
+        import { handleError } from &apos;./error.js&apos;;
+        import { renderToStream, renderToString } from &apos;@popeindustries/lit-html-server&apos;;
+        import template from &apos;./template.js&apos;;
+
+        app.get(&apos;/&apos;, async (request, reply) => {
+          let markup;
+          try {
+            if (request.isBot) {
+              markup = await renderToString(template());
+            } else {
+              markup = renderToStream(template());
+              markup.on(&apos;error&apos;, handleError);
+            }
+          } catch (err) {
+            return handleError(err);
+          }
+
+          reply.type(&apos;text/html&apos;).code(200).send(markup);
+        })
+      </code></pre>
       <footer class="notes">
+        <p class="note"></p>
+        <p class="note"></p>
         <p class="note"></p>
       </footer>
     </section>

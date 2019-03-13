@@ -175,3 +175,13 @@
     position: absolute;
   }
 }
+
+#streaming {
+  > * {
+    position: absolute;
+  }
+  img {
+    box-shadow: $global-shadow;
+    width: 58vw;
+  }
+}
