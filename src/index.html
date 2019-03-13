@@ -180,7 +180,53 @@
 
     <section id="dev-env">
       <h1>#2 Development Environment</h1>
+      <figure>
+        terminal video
+        <figcaption>Previous</figcaption>
+      </figure>
+      <figure>
+        terminal video
+        <figcaption>Next</figcaption>
+      </figure>
+      <pre class="code entry"><code class="js">
+        require = require('esm')(module, { mainFields: ['module', 'main'] });
+        module.exports = require('./src/server/index.js').default();
+      </code></pre>
+      <pre class="code mock"><code class="bash">
+        kurator-front-office-next $ npm run dev:mock
 
+        > kurator-front-office-next@1.0.0 dev /Users/alex/PROJECTS/NRK/kurator-front-office-next
+        > dvlp --transpiler ./scripts/transpile.js --mock ./mock ./index-dev.js
+
+          ✔ loaded transpiler from scripts/transpile.js
+          ✔ loaded 1 mock response from mock/bottom-menu.mock.json
+          ✔ loaded 5 mock responses from mock/elglobo.mock.json
+          ✔ loaded 4 mock responses from mock/floor-29-26.mock.json
+          ✔ loaded 2 mock responses from mock/guestroom-133-7.mock.json
+          ✔ loaded 127 mock responses from mock/house-12.mock.json
+          ✔ loaded 136 mock responses from mock/house-2-900.mock.json
+          ✔ loaded 45 mock responses from mock/house-5.mock.json
+          ✔ loaded 144 mock responses from mock/house-uu.mock.json
+          ✔ loaded 2 mock responses from mock/newsfeed.mock.json
+          ✔ loaded 2 mock responses from mock/rss.mock.json
+          ✔ loaded 1 mock response from mock/videoroom-289-288.mock.json
+
+          💥 serving ./index-dev.js at http://localhost:3000
+          👀 watching for changes...
+      </code></pre>
+      <pre class="code test"><code class="js">
+        const api = await testServer({ autorespond: false, latency: 0, 8080 });
+        api.mocks.add('http://localhost:8080/houses/2/ids', {
+          error: true,
+          body: {}
+        });
+        const app = await application();
+        const res = await app.inject({
+          method: 'GET',
+          url: 'http://localhost:3000'
+        });
+        expect(res.statusCode).to.equal(500);
+      </code></pre>
       <footer class="notes">
         <p class="note">Probably the biggest differnce between Previous and Next is the development environment</p>
         <p class="note">Previous used Nodemon to restart the application server, Babel to transpile server code, and Webpack to compile assets for the browser</p>
@@ -193,15 +239,89 @@
 
     <section id="modules">
       <h1>#3 ES Modules</h1>
+      <img src="assets/images/waterfall.jpg">
+      <pre class="code load"><code class="html">
+        &lt;head&gt;
+          &lt;link rel=&quot;preload&quot; href=&quot;index.mjs&quot; as=&quot;script&quot;&gt;
+          &lt;script&gt;
+            window.cutsTheMustard = testDOMProp('visibilityState', document);
+            if (window.Reflect == null) {
+              loadScript('es6-polyfill.js', { async: false, defer: false });
+            }
+            if (!('customElements' in window)) {
+              loadScript('dom-polyfill.js', { async: false, defer: false });
+            }
+          &lt;/script&gt;
+          &lt;script&gt;
+            loadScript('index.mjs', { async: false, defer: false, module: true });
+          &lt;/script&gt;
+          &lt;script nomodule&gt;
+            loadScript(window.cutsTheMustard ? 'index.js' : 'index-legacy.js',
+              { async: false, defer: false }
+            );
+          &lt;/script&gt;
+        &lt;/head&gt;
+      </code></pre>
       <footer class="notes">
-        <p class="note"></p>
+        <p class="note">The most important development principle is that Next treats bundling as a production optimization, like minification</p>
+        <p class="note">During development, js files are loaded by the browser via standard es module import syntax</p>
+        <p class="note">We write idiomatic JavaScript, and dvlp handles resolving bare imports behind the scenes</p>
+        <p class="note">In production, server and client code is bundled with Rollup.js</p>
+        <p class="note">Client code is bundled twice to allow for serving different code to different browsers</p>
+        <p class="note">This so-called differential bundling allows newer browsers to load untranspiled es6 code (async/await, classes, etc), and older browsers transpiled es5 code</p>
       </footer>
     </section>
 
     <section id="templates">
       <h1>#4 Tagged Template Literals</h1>
+      <pre class="code layout"><code class="js">
+        import Head from &apos;./head.js&apos;;
+        import House from &apos;./house.js&apos;;
+        import { html } from &apos;@popeindustries/lit-html-server&apos;;
+
+        /**
+         * Layout template
+         * @param {object} data
+         * @param {RenderContext} context
+         * @returns {TemplateResult}
+         */
+        function layout(data, context) {
+          return html`
+            &lt;!DOCTYPE html&gt;
+            &lt;html lang=&quot;nb-NO&quot;&gt;
+              ${Head(data, context)}
+              &lt;body class=&quot;kur-house&quot;&gt;
+                ${House(data, context)}
+              &lt;/body&gt;
+            &lt;/html&gt;
+          `;
+        }
+      </code></pre>
+      <pre class="code component"><code class="js">
+        import Floor from &apos;./floor.js&apos;;
+        import { getHouse } from &apos;./api-agent.js&apos;;
+        import { html } from &apos;@popeindustries/lit-html-server&apos;;
+
+        /**
+         * House component
+         * @param {object} data
+         * @param {RenderContext} context
+         * @returns {Promise&lt;TemplateResult|undefined&gt;}
+         */
+        export default async function House(data, context) {
+          const { floors } = await getHouse(data.houseId);
+
+          return html`
+            &lt;main&gt;
+              ${floors.map((floor) =&gt; Floor(floor, context))}
+            &lt;/main&gt;
+          `;
+        }
+      </code></pre>
       <footer class="notes">
-        <p class="note"></p>
+        <p class="note">For rendering markup, Next uses lit-html's template literal syntax (instead of React)</p>
+        <p class="note">Template literals are a native JavaScript syntax for performing custom string interpolation</p>
+        <p class="note">lit-html adds some sugar for handling attributes, and various helper functions called directives</p>
       </footer>
     </section>
 

@@ -144,3 +144,34 @@
     @include center;
   }
 }
+
+#dev-env {
+  > * {
+    position: absolute;
+  }
+  figure {
+    border: 1px solid red;
+    margin: 1vw 2vw;
+    width: 35vw;
+    height: 35vw;
+    figcaption {
+      margin-top: 5vw;
+    }
+  }
+}
+
+#modules {
+  > * {
+    position: absolute;
+  }
+  img {
+    box-shadow: $global-shadow;
+    width: 58vw;
+  }
+}
+
+#templates {
+  > * {
+    position: absolute;
+  }
+}
