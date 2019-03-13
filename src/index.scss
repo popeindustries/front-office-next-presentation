@@ -120,3 +120,21 @@
 
 #motivation {
 }
+
+#book {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+  img {
+    height: 90%;
+    margin-left: 5vw;
+  }
+  ul {
+    margin: 2vw 3vw;
+    li {
+      list-style: none;
+      margin: 5vw 0;
+      text-align: center;
+    }
+  }
+}
