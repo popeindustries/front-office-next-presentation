@@ -115,15 +115,79 @@
 
     <section id="config">
       <h1>#1 Configuration</h1>
+      <pre class="code config-json"><code class="json">
+        {
+          "api": {
+            "cacheMaxSize": 1000,
+            "maxAgeFeed": "1m",
+            "maxAgeImmutable": "24h",
+            "maxAgeMutable": "1s",
+            "origin": "${__SUPPLIED_BY_ENV__}",
+            "pathnames": {
+              "blueprint": "/houses/${id}/ids",
+              "house": "/houses/${itemId}/${id}",
+              "feed": "/${type}/houses/${houseId}",
+              "floor": "/floors/${itemId}/${id}",
+              "room": "/rooms/${itemId}/${id}"
+            },
+            "retry": "${__SUPPLIED_BY_ENV__}",
+            "secretKey": "${API_SECRET}",
+            "timeout": "${__SUPPLIED_BY_ENV__}",
+            "urls": "**generated at runtime**"
+          }
+        }
+      </code></pre>
+      <pre class="code config-dir"><code class="txt">
+        /config
+          **files here are added by runtime env**.txt
+          **files here are loaded in sort order**.txt
+          local.json
+      </code></pre>
+      <pre class="code config-js"><code class="js">
+        import config from '@nrk/frontend-common/config.js';
+
+        const houseEndpoint = config.get('api.urls.house');
+        // => https://kurator-api-stage.nrk.no/houses/${itemId}/${id}
+        const apartmentEndpoint = config.get('api.urls.apartment');
+        // => Boom! Error: no config value found for "api.urls.apartment"
+      </code></pre>
+      <pre class="code config-node-env"><code class="json">
+        {
+          "NODE_ENV": {
+            "test": {
+              "api": {
+                "origin": "http://localhost:8080"
+              }
+            },
+            "production": {
+              "api": {
+                "origin": "https://kurator-api.nrk.no"
+              }
+            }
+          }
+        }
+      </code></pre>
       <footer class="notes">
-        <p class="note"></p>
+        <p class="note">One of the most important goals of good design is for a system to be obvious</p>
+        <p class="note">One place where being obvious is important is application configuration</p>
+        <p class="note">Our new config setup describes all configuration options in one place (config.json), and is explicit about which values must be supplied by the runtime environment</p>
+        <p class="note">Environment values are loaded from the /config directory, which can be populated using Kubernetes ConfigMaps</p>
+        <p class="note">During runtime, any missing environment variables will throw and cause the application to crash, preventing rollout</p>
+        <p class="note">Reading non-existant values will also throw an error. Obvious errors are simpler to fix than hidden ones</p>
+        <p class="note">Another benefit of being explicit is that the application has no concept of environment, only configuration, which is also much simpler</p>
       </footer>
     </section>
 
     <section id="dev-env">
       <h1>#2 Development Environment</h1>
+
       <footer class="notes">
-        <p class="note"></p>
+        <p class="note">Probably the biggest differnce between Previous and Next is the development environment</p>
+        <p class="note">Previous used Nodemon to restart the application server, Babel to transpile server code, and Webpack to compile assets for the browser</p>
+        <p class="note">This type of tooling chain is complex to set up, slow to restart after changes, and requires special server middleware to be used, forcing the application to be aware of it's environment</p>
+        <p class="note">Next uses dvlp to restart the application server, esm to enable es modules for server code, and no asset compiler (except Sass)</p>
+        <p class="note">Most importantly, however, is that the application itself is totally unaware it's running in development. There is no difference between development and production code beyond configuration</p>
+        <p class="note">With dvlp we also get easy mocking during runtime and testing</p>
       </footer>
     </section>
 

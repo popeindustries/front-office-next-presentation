@@ -138,3 +138,9 @@
     }
   }
 }
+
+#config {
+  .code {
+    @include center;
+  }
+}
