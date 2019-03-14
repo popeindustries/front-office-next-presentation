@@ -305,6 +305,7 @@
         /**
          * House component
          * @param {object} data
+         * @param {string} data.houseId
          * @param {RenderContext} context
          * @returns {Promise&lt;TemplateResult|undefined&gt;}
          */
@@ -322,6 +323,8 @@
         <p class="note">For rendering markup, Next uses lit-html's template literal syntax (instead of React)</p>
         <p class="note">Template literals are a native JavaScript syntax for performing custom string interpolation</p>
         <p class="note">lit-html adds some sugar for handling attributes, and various helper functions called directives</p>
+        <p class="note">Note that the House component is an async function, and returns a Promise</p>
+        <p class="note">The tag function can return anything, not just a string</p>
       </footer>
     </section>
 
@@ -338,6 +341,30 @@
         }).listen(3000);
       </code></pre>
       <img src="assets/images/server-timing.jpg">
+      <pre class="code error"><code class="js">
+        /**
+         * Floor component
+         * @param {object} data
+         * @param {string} data.itemId
+         * @param {string} data.id
+         * @param {RenderContext} context
+         * @returns {Promise&lt;TemplateResult|undefined&gt;}
+         */
+        export default async function Floor(data, context) {
+          const floorData = await getFloor(data.itemId, data.id);
+
+          if (floorData.error) {
+            if (!context.isStreaming) {
+              throw floorData.error;
+            } else {
+              // Fallback to empty floor
+              return html`
+                &lt;section class=&quot;kur-floor&quot;&gt;&lt;/section&gt;
+              `;
+            }
+          }
+        }
+      </code></pre>
       <pre class="code buffer"><code class="js">
         import { handleError } from &apos;./error.js&apos;;
         import { renderToStream, renderToString } from &apos;@popeindustries/lit-html-server&apos;;
@@ -360,36 +387,117 @@
         })
       </code></pre>
       <footer class="notes">
-        <p class="note"></p>
-        <p class="note"></p>
-        <p class="note"></p>
+        <p class="note">A streaming template renderer is capable of rendering the data structure returned by a tagged template literal as a Node.js ReadableStream, and push data to the response stream as async template data is resolved</p>
+        <p class="note">This enables us to "flush early, flush often", even before we begin fetching api data</p>
+        <p class="note">This streaming approach simplifies request handling by allowing us to get the response out the door as fast as possible</p>
+        <p class="note">The only weakness with this approach is that you won't be able to change the response status code if an error occurs during async rendering</p>
+        <p class="note">In cases where status codes are important (search engines, health checks, liveness probes, etc), we check the user-agent against a list of known non-human agents and buffer instead</p>
       </footer>
     </section>
 
     <section id="cache">
       <h1>#6 Caching</h1>
+      <pre class="code agent"><code class="js">
+        import { Cache } from &apos;@nrk/frontend-common/cache.js&apos;;
+        import config from &apos;@nrk/frontend-common/config.js&apos;;
+        import { staleWhileRevalidate } from &apos;@nrk/frontend-common/cache-strategies.js&apos;;
+        import { template } from &apos;@nrk/frontend-common/string.js&apos;;
+
+        const cache = new Cache();
+        const apiConfig = config.get(&apos;api&apos;);
+
+        async function getFloor(itemId, id, context) {
+          const url = template(apiConfig.urls.floor, { itemId, id });
+          try {
+            return await staleWhileRevalidate(url, {
+              defaultMaxAge: apiConfig.maxAgeImmutable,
+              requestOptions: {
+                retry: apiConfig.retry,
+                timeout: apiConfig.timeout
+              }
+            }).body;
+          } catch (error) {
+            return { id, itemId, error };
+          }
+        }
+      </code></pre>
       <footer class="notes">
-        <p class="note"></p>
+        <p class="note">Streaming in this way is possible because we have pushed data fetching responsibility down the render tree, and this is only possible due to our fetching and caching infrastructure</p>
+        <p class="note">Built around a port of the Browser's Cache api, data fetching is implemented via one of three cache strategies: network-first, stale-while-revalidate, or network-only</p>
+        <p class="note">Includes retry, timeout, backoff, LRU, and request collapsing</p>
+        <p class="note">Could be better: adaptive fetch control</p>
       </footer>
     </section>
 
     <section id="custom-elements">
       <h1>#7 Custom Elements</h1>
+      <pre class="code markup"><code class="html">
+        &lt;kur-newsfeed url=&quot;https://kurator-ssehub.nrk.no&quot;&gt;&lt;/kur-newsfeed&gt;
+      </code></pre>
+      <pre class="code updatable"><code class="js">
+        import UpdatableElement from '../../utils/updatable-element.js';
+
+        class KurNewsfeed extends UpdatableElement {
+          static get properties() {
+            //...
+          }
+          initialise() {
+            //...
+          }
+          render() {
+            //...
+          }
+        }
+
+        if (!window.customElements.get('kur-newsfeed')) {
+          window.customElements.define('kur-newsfeed', KurNewsfeed);
+        }
+      </code></pre>
       <footer class="notes">
-        <p class="note"></p>
+        <p class="note">Next is largely a static page, but for the components that are interactive, we use Custom Elements to encapsulate client logic</p>
+        <p class="note">We created an element base class loosely based on lit-element</p>
+        <p class="note">The most importand feature of Custom Elements for Next is that components are self registering, and code can run as soon as possible before markup is rendered</p>
       </footer>
     </section>
 
     <section id="sse">
       <h1>#8 EventSource</h1>
+      <img src="assets/images/newsfeed.jpg">
+      <pre class="code"><code class="js">
+        initEventSource() {
+          // We don't polyfill very old IE, so bail
+          if (!('EventSource' in window)) {
+            return;
+          }
+
+          // Return current history with '?getcache=1'
+          this.eventsource = new EventSource(`${this.url}?getcache=1`);
+          this.eventsource.onmessage = (msg) => {
+            const data = JSON.parse(msg.data);
+
+            // Skip if new data older than existing
+            if (this.data.updated > data.updated) {
+              return;
+            }
+            this.data = data;
+          };
+        }
+      </code></pre>
       <footer class="notes">
-        <p class="note"></p>
+        <p class="note">The newsfeed component in Previous used Pusher and Web Sockets to get push updates. Next uses EventSource and Server Sent Events instead</p>
+        <p class="note">EventSource is a built-in long-polling protocol, and is supported by all browsers except Microsoft's, but is easily polyfilled. It is unidirectional (push only), and very lightweight</p>
+        <p class="note">Instead of paying millions to Pusher every year, we run instances of VG's SSEHub C++ app in Kubernetes</p>
+        <p class="note">We had troubles earlier with network scaling with lots of users, but now have a setup that can support over 200,000 connections</p>
       </footer>
     </section>
 
     <section id="embed">
       <h1>#9 Core-Embed</h1>
       <footer class="notes">
+        <p class="note">Next is also a 100% certified Core-Embed host application</p>
+        <p class="note">Core-Embed is a contract for embedding trusted content into a web application</p>
+        <p class="note"></p>
+        <p class="note"></p>
         <p class="note"></p>
       </footer>
     </section>
