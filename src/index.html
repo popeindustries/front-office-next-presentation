@@ -566,6 +566,10 @@
               "type": "object",
               "required": ["title"],
               "properties": {
+                "color": {
+                  "type": "string",
+                  "default": "0x0000ff"
+                },
                 "title": {
                   "type": "string"
                 },
@@ -615,7 +619,7 @@
               href=&quot;https://fancy.nrk.no/fancy-ui-widget/v1/render/assets/index.css&quot;
             /&gt;
             &lt;!-- skipping https://static.nrk.no/core-fonts/major/2/core-fonts.css --&gt;
-            &lt;nrk-fancy-ui-widget-v1 expanded&gt;
+            &lt;nrk-fancy-ui-widget-v1 color=&quot;0x0000ff&quot; expanded&gt;
               &lt;h2&gt;Very Fancy Tittel&lt;/h2&gt;
             &lt;/nrk-fancy-ui-widget-v1&gt;
             &lt;script&gt;
