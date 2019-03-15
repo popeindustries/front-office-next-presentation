@@ -19,11 +19,11 @@
 
     <section id="kurator">
       <figure>
-        <img src="assets/images/back-office.jpg">
+        <img src="assets/back-office.jpg">
         <figcaption>Back-Office</figcaption>
       </figure>
       <figure>
-        <img src="assets/images/front-office.jpg">
+        <img src="assets/front-office.jpg">
         <figcaption>Front-Office</figcaption>
       </figure>
       <footer class="notes">
@@ -34,7 +34,7 @@
 
     <section id="front-office">
       <figure>
-        <img src="assets/images/front-office-full.jpg">
+        <img src="assets/front-office-full.jpg">
         <span class="highlight highlight-house"><span>house</span></span>
         <span class="highlight highlight-floor"><span>floor</span></span>
         <span class="highlight highlight-room"><span>room</span></span>
@@ -51,11 +51,11 @@
 
     <section id="front-office-next">
       <figure class="next">
-        <img src="assets/images/front-office-full.jpg">
+        <img src="assets/front-office-full.jpg">
         <figcaption>Next</figcaption>
       </figure>
       <figure class="prev">
-        <img src="assets/images/front-office-full.jpg">
+        <img src="assets/front-office-full.jpg">
         <figcaption>Previous</figcaption>
       </figure>
       <footer class="notes">
@@ -83,7 +83,7 @@
       </footer>
     </section>
 
-    <section id="feature">
+    <section id="perf">
       <h1>Performance is a <em>feature</em></h1>
       <footer class="notes">
         <p class="note">This was the real motivation for the rewrite: improve render performance in order to be able to offer customized content</p>
@@ -91,7 +91,7 @@
       </footer>
     </section>
 
-    <section id="motivation">
+    <section id="simpler">
       <h1>"reducing complexity is the most important element of software design"</h1>
       <footer class="notes">
         <p class="note">My real motivation, however, was to design a system that was simpler</p>
@@ -99,105 +99,114 @@
     </section>
 
     <section id="book">
-      <img src="assets/images/book.jpg">
+      <img src="assets/book.jpg">
       <ul>
         <li class="one">"the greatest limitation in writing software is our ability to understand the systems we are creating"</li>
-        <li class="two">"developers [...] should always be on the lookout for opportunities to improve the design of the system"</li>
-        <li class="three">"developers should always be thinking about complexity"</li>
+        <li class="two">"if we want to make it easier to write software [...] we must find ways to make software simpler"</li>
+        <li class="three">"developers should <strong>always</strong> be thinking about complexity"</li>
       </ul>
       <footer class="notes">
         <p class="note">This book by John Ousterhout is fantastic, and basically deals with high level techniques for reducing complexity in software systems</p>
-        <p class="note">quote</p>
-        <p class="note">quote</p>
-        <p class="note">quote</p>
+        <p class="note step">quote</p>
+        <p class="note step">quote</p>
+        <p class="note step">quote</p>
+      </footer>
+    </section>
+
+    <section id="steps">
+      <h1>9 <em>shocking</em> steps to simplifying <br>your application and your life</h1>
+      <footer class="notes">
+        <p class="note"></p>
       </footer>
     </section>
 
     <section id="config">
       <h1>#1 Configuration</h1>
-      <pre class="code config-json"><code class="json">
-        {
-          "api": {
-            "cacheMaxSize": 1000,
-            "maxAgeFeed": "1m",
-            "maxAgeImmutable": "24h",
-            "maxAgeMutable": "1s",
-            "origin": "${__SUPPLIED_BY_ENV__}",
-            "pathnames": {
-              "blueprint": "/houses/${id}/ids",
-              "house": "/houses/${itemId}/${id}",
-              "feed": "/${type}/houses/${houseId}",
-              "floor": "/floors/${itemId}/${id}",
-              "room": "/rooms/${itemId}/${id}"
-            },
-            "retry": "${__SUPPLIED_BY_ENV__}",
-            "secretKey": "${API_SECRET}",
-            "timeout": "${__SUPPLIED_BY_ENV__}",
-            "urls": "**generated at runtime**"
+      <figure class="config-json">
+        <pre class="code"><code class="json">
+          {
+            "api": {
+              "cacheMaxSize": 1000,
+              "maxAgeFeed": "1m",
+              "maxAgeImmutable": "24h",
+              "maxAgeMutable": "1s",
+              "origin": "${__SUPPLIED_BY_ENV__}",
+              "pathnames": {
+                "blueprint": "/houses/${id}/ids",
+                "house": "/houses/${itemId}/${id}",
+                "feed": "/${type}/houses/${houseId}",
+                "floor": "/floors/${itemId}/${id}",
+                "room": "/rooms/${itemId}/${id}"
+              },
+              "retry": "${__SUPPLIED_BY_ENV__}",
+              "secretKey": "${API_SECRET}",
+              "timeout": "${__SUPPLIED_BY_ENV__}",
+              "urls": "**generated at runtime**"
+            }
           }
-        }
-      </code></pre>
-      <pre class="code config-dir"><code class="txt">
-        /config
+        </code></pre>
+        <figcaption>/config.json</figcaption>
+      </figure>
+      <figure class="config-dir">
+        <pre class="code"><code>
           **files here are added by runtime env**.txt
           **files here are loaded in sort order**.txt
           local.json
-      </code></pre>
-      <pre class="code config-js"><code class="js">
-        import config from '@nrk/frontend-common/config.js';
+        </code></pre>
+        <figcaption>/config</figcaption>
+      </figure>
+      <figure class="config-js">
+        <pre class="code"><code class="js">
+          import config from '@nrk/frontend-common/config.js';
 
-        const houseEndpoint = config.get('api.urls.house');
-        // => https://kurator-api-stage.nrk.no/houses/${itemId}/${id}
-        const apartmentEndpoint = config.get('api.urls.apartment');
-        // => Boom! Error: no config value found for "api.urls.apartment"
-      </code></pre>
-      <pre class="code config-node-env"><code class="json">
-        {
-          "NODE_ENV": {
-            "test": {
-              "api": {
-                "origin": "http://localhost:8080"
-              }
-            },
-            "production": {
-              "api": {
-                "origin": "https://kurator-api.nrk.no"
+          const houseEndpoint = config.get('api.urls.house');
+          // => https://kurator-api-stage.nrk.no/houses/${itemId}/${id}
+          const apartmentEndpoint = config.get('api.urls.apartment');
+          // => Boom! Error: no config value found for "api.urls.apartment"
+        </code></pre>
+        <figcaption>/src/some.js</figcaption>
+      </figure>
+      <figure class="config-node-env">
+        <pre class="code"><code class="json">
+          {
+            "NODE_ENV": {
+              "test": {
+                "api": {
+                  "origin": "http://localhost:8080"
+                }
+              },
+              "production": {
+                "api": {
+                  "origin": "https://kurator-api.nrk.no"
+                }
               }
             }
           }
-        }
-      </code></pre>
+        </code></pre>
+        <figcaption>/config/local.json</figcaption>
+      </figure>
       <footer class="notes">
-        <p class="note">One of the most important goals of good design is for a system to be obvious</p>
-        <p class="note">One place where being obvious is important is application configuration</p>
-        <p class="note">Our new config setup describes all configuration options in one place (config.json), and is explicit about which values must be supplied by the runtime environment</p>
-        <p class="note">Environment values are loaded from the /config directory, which can be populated using Kubernetes ConfigMaps</p>
-        <p class="note">During runtime, any missing environment variables will throw and cause the application to crash, preventing rollout</p>
+        <p class="note">One of the most important goals of good design is for a system to be obvious, and one place where being obvious is important is application configuration</p>
+        <p class="note step">Our new config setup describes all configuration options in one place (config.json), and is explicit about which values must be supplied by the runtime environment</p>
+        <p class="note step">Environment values are loaded from the /config directory, which can be populated using Kubernetes ConfigMaps</p>
+        <p class="note step">During runtime, any missing environment variables will throw and cause the application to crash, preventing rollout</p>
         <p class="note">Reading non-existant values will also throw an error. Obvious errors are simpler to fix than hidden ones</p>
-        <p class="note">Another benefit of being explicit is that the application has no concept of environment, only configuration, which is also much simpler</p>
+        <p class="note step">Another benefit of being explicit is that the application has no concept of environment, only configuration, which is also much simpler</p>
       </footer>
     </section>
 
     <section id="dev-env">
       <h1>#2 Development Environment</h1>
-      <figure>
-        terminal video
+      <figure class="video video-prev">
+        <video loop src="assets/prev.mp4"></video>
         <figcaption>Previous</figcaption>
       </figure>
-      <figure>
-        terminal video
+      <figure class="video video-next">
+        <video loop src="assets/next.mp4"></video>
         <figcaption>Next</figcaption>
       </figure>
-      <pre class="code entry"><code class="js">
-        require = require('esm')(module, { mainFields: ['module', 'main'] });
-        module.exports = require('./src/server/index.js').default();
-      </code></pre>
-      <pre class="code mock"><code class="bash">
-        kurator-front-office-next $ npm run dev:mock
-
-        > kurator-front-office-next@1.0.0 dev /Users/alex/PROJECTS/NRK/kurator-front-office-next
-        > dvlp --transpiler ./scripts/transpile.js --mock ./mock ./index-dev.js
-
+      <figure class="mock">
+        <pre class="code"><code class="bash">
           ✔ loaded transpiler from scripts/transpile.js
           ✔ loaded 1 mock response from mock/bottom-menu.mock.json
           ✔ loaded 5 mock responses from mock/elglobo.mock.json
@@ -213,217 +222,255 @@
 
           💥 serving ./index-dev.js at http://localhost:3000
           👀 watching for changes...
-      </code></pre>
-      <pre class="code test"><code class="js">
-        const api = await testServer({ autorespond: false, latency: 0, 8080 });
-        api.mocks.add('http://localhost:8080/houses/2/ids', {
-          error: true,
-          body: {}
-        });
-        const app = await application();
-        const res = await app.inject({
-          method: 'GET',
-          url: 'http://localhost:3000'
-        });
-        expect(res.statusCode).to.equal(500);
-      </code></pre>
+        </code></pre>
+        <figcaption>npm run dev:mock</figcaption>
+      </figure>
+      <figure class="test">
+        <pre class="code"><code class="js">
+          import application from '../index.js';
+          import { expect } from 'chai';
+          import { testServer } from 'dvlp';
+
+          const api = await testServer({ autorespond: false, latency: 0, 8080 });
+
+          api.mocks.add('http://localhost:8080/houses/2/ids', {
+            error: true,
+            body: {}
+          });
+
+          const app = await application();
+          const res = await app.inject({
+            method: 'GET',
+            url: 'http://localhost:3000'
+          });
+
+          expect(res.statusCode).to.equal(500);
+        </code></pre>
+        <figcaption>/test/some-test.js</figcaption>
+      </figure>
       <footer class="notes">
         <p class="note">Probably the biggest differnce between Previous and Next is the development environment</p>
-        <p class="note">Previous used Nodemon to restart the application server, Babel to transpile server code, and Webpack to compile assets for the browser</p>
+        <p class="note step">Previous used Nodemon to restart the application server, Babel to transpile server code, and Webpack to compile assets for the browser</p>
         <p class="note">This type of tooling chain is complex to set up, slow to restart after changes, and requires special server middleware to be used, forcing the application to be aware of it's environment</p>
-        <p class="note">Next uses dvlp to restart the application server, esm to enable es modules for server code, and no asset compiler (except Sass)</p>
+        <p class="note step">Next uses dvlp to restart the application server, esm to enable es modules for server code, and no asset compiler (except Sass)</p>
         <p class="note">Most importantly, however, is that the application itself is totally unaware it's running in development. There is no difference between development and production code beyond configuration</p>
-        <p class="note">With dvlp we also get easy mocking during runtime and testing</p>
+        <p class="note step">With dvlp we also get easy mocking during runtime...</p>
+        <p class="note step">...and testing</p>
       </footer>
     </section>
 
     <section id="modules">
       <h1>#3 ES Modules</h1>
-      <img src="assets/images/waterfall.jpg">
-      <pre class="code load"><code class="html">
-        &lt;head&gt;
-          &lt;link rel=&quot;preload&quot; href=&quot;index.mjs&quot; as=&quot;script&quot;&gt;
-          &lt;script&gt;
-            window.cutsTheMustard = testDOMProp('visibilityState', document);
-            if (window.Reflect == null) {
-              loadScript('es6-polyfill.js', { async: false, defer: false });
-            }
-            if (!('customElements' in window)) {
-              loadScript('dom-polyfill.js', { async: false, defer: false });
-            }
-          &lt;/script&gt;
-          &lt;script&gt;
-            loadScript('index.mjs', { async: false, defer: false, module: true });
-          &lt;/script&gt;
-          &lt;script nomodule&gt;
-            loadScript(window.cutsTheMustard ? 'index.js' : 'index-legacy.js',
-              { async: false, defer: false }
-            );
-          &lt;/script&gt;
-        &lt;/head&gt;
-      </code></pre>
+      <figure class="waterfall">
+        <img src="assets/waterfall.jpg">
+      </figure>
+      <figure class="load">
+        <pre class="code"><code class="html">
+          &lt;head&gt;
+            &lt;link rel=&quot;preload&quot; href=&quot;index.mjs&quot; as=&quot;script&quot;&gt;
+            &lt;script&gt;
+              window.cutsTheMustard = testDOMProp('visibilityState', document);
+              if (window.Reflect == null) {
+                loadScript('es6-polyfill.js', { async: false, defer: false });
+              }
+              if (!('customElements' in window)) {
+                loadScript('dom-polyfill.js', { async: false, defer: false });
+              }
+            &lt;/script&gt;
+            &lt;script&gt;
+              loadScript('index.mjs', { async: false, defer: false, module: true });
+            &lt;/script&gt;
+            &lt;script nomodule&gt;
+              loadScript(window.cutsTheMustard ? 'index.js' : 'index-legacy.js',
+                { async: false, defer: false }
+              );
+            &lt;/script&gt;
+          &lt;/head&gt;
+        </code></pre>
+      </figure>
       <footer class="notes">
         <p class="note">The most important development principle is that Next treats bundling as a production optimization, like minification</p>
-        <p class="note">During development, js files are loaded by the browser via standard es module import syntax</p>
+        <p class="note step">During development, js files are loaded by the browser via standard es module import syntax</p>
         <p class="note">We write idiomatic JavaScript, and dvlp handles resolving bare imports behind the scenes</p>
         <p class="note">In production, server and client code is bundled with Rollup.js</p>
-        <p class="note">Client code is bundled twice to allow for serving different code to different browsers</p>
+        <p class="note step">Client code is bundled twice to allow for serving different code to different browsers</p>
         <p class="note">This so-called differential bundling allows newer browsers to load untranspiled es6 code (async/await, classes, etc), and older browsers transpiled es5 code</p>
       </footer>
     </section>
 
     <section id="templates">
       <h1>#4 Tagged Template Literals</h1>
-      <pre class="code layout"><code class="js">
-        import Head from &apos;./head.js&apos;;
-        import House from &apos;./house.js&apos;;
-        import { html } from &apos;@popeindustries/lit-html-server&apos;;
+      <figure class="layout">
+        <pre class="code"><code class="js">
+          import Head from './head.js';
+          import House from './house.js';
+          import { html } from '@popeindustries/lit-html-server';
 
-        /**
-         * Layout template
-         * @param {object} data
-         * @param {RenderContext} context
-         * @returns {TemplateResult}
-         */
-        function layout(data, context) {
-          return html`
-            &lt;!DOCTYPE html&gt;
-            &lt;html lang=&quot;nb-NO&quot;&gt;
-              ${Head(data, context)}
-              &lt;body class=&quot;kur-house&quot;&gt;
-                ${House(data, context)}
-              &lt;/body&gt;
-            &lt;/html&gt;
-          `;
-        }
-      </code></pre>
-      <pre class="code component"><code class="js">
-        import Floor from &apos;./floor.js&apos;;
-        import { getHouse } from &apos;./api-agent.js&apos;;
-        import { html } from &apos;@popeindustries/lit-html-server&apos;;
+          /**
+           * Layout template
+           * @param {object} data
+           * @param {RenderContext} context
+           * @returns {TemplateResult}
+           */
+          function layout(data, context) {
+            return html`
+              &lt;!DOCTYPE html&gt;
+              &lt;html lang=&quot;nb-NO&quot;&gt;
+                ${Head(data, context)}
+                &lt;body class=&quot;kur-house&quot;&gt;
+                  ${House(data, context)}
+                &lt;/body&gt;
+              &lt;/html&gt;
+            `;
+          }
+        </code></pre>
+        <figcaption>/src/layout.js</figcaption>
+      </figure>
+      <figure class="component">
+        <pre class="code"><code class="js">
+          import Floor from './floor.js';
+          import { getHouse } from './api-agent.js';
+          import { html } from '@popeindustries/lit-html-server';
 
-        /**
-         * House component
-         * @param {object} data
-         * @param {string} data.houseId
-         * @param {RenderContext} context
-         * @returns {Promise&lt;TemplateResult|undefined&gt;}
-         */
-        export default async function House(data, context) {
-          const { floors } = await getHouse(data.houseId);
+          /**
+           * House component
+           * @param {object} data
+           * @param {string} data.houseId
+           * @param {RenderContext} context
+           * @returns {Promise&lt;TemplateResult|undefined&gt;}
+           */
+          export default async function House(data, context) {
+            const { floors } = await getHouse(data.houseId);
 
-          return html`
-            &lt;main&gt;
-              ${floors.map((floor) =&gt; Floor(floor, context))}
-            &lt;/main&gt;
-          `;
-        }
-      </code></pre>
+            return html`
+              &lt;main&gt;
+                ${floors.map((floor) =&gt; Floor(floor, context))}
+              &lt;/main&gt;
+            `;
+          }
+        </code></pre>
+        <figcaption>/src/components/house.js</figcaption>
+      </figure>
       <footer class="notes">
         <p class="note">For rendering markup, Next uses lit-html's template literal syntax (instead of React)</p>
-        <p class="note">Template literals are a native JavaScript syntax for performing custom string interpolation</p>
+        <p class="note step">Template literals are a native JavaScript syntax for performing custom string interpolation</p>
         <p class="note">lit-html adds some sugar for handling attributes, and various helper functions called directives</p>
-        <p class="note">Note that the House component is an async function, and returns a Promise</p>
+        <p class="note step">Note that the House component is an async function, and returns a Promise</p>
         <p class="note">The tag function can return anything, not just a string</p>
       </footer>
     </section>
 
     <section id="streaming">
       <h1>#5 Streaming Renderer</h1>
-      <pre class="code pipe"><code class="js">
-        import { createServer } from &apos;http&apos;;
-        import { renderToStream } from &apos;@popeindustries/lit-html-server&apos;;
-        import template from './template.js';
+      <figure class="pipe">
+        <pre class="code"><code class="js">
+          import { createServer } from 'http';
+          import { renderToStream } from '@popeindustries/lit-html-server';
+          import template from './template.js';
 
-        createServer((req, res) => {
-          res.writeHead(200);
-          renderToStream(template()).pipe(res);
-        }).listen(3000);
-      </code></pre>
-      <img src="assets/images/server-timing.jpg">
-      <pre class="code error"><code class="js">
-        /**
-         * Floor component
-         * @param {object} data
-         * @param {string} data.itemId
-         * @param {string} data.id
-         * @param {RenderContext} context
-         * @returns {Promise&lt;TemplateResult|undefined&gt;}
-         */
-        export default async function Floor(data, context) {
-          const floorData = await getFloor(data.itemId, data.id);
+          createServer((req, res) => {
+            res.writeHead(200);
+            renderToStream(template()).pipe(res);
+          }).listen(3000);
+        </code></pre>
+      </figure>
+      <figure class="server-timing">
+        <img src="assets/server-timing.jpg">
+        <figcaption>www.nrk.no/</figcaption>
+      </figure>
+      <figure class="error">
+        <pre class="code"><code class="js">
+          /**
+           * Floor component
+           * @param {object} data
+           * @param {string} data.itemId
+           * @param {string} data.id
+           * @param {RenderContext} context
+           * @returns {Promise&lt;TemplateResult|undefined&gt;}
+           */
+          export default async function Floor(data, context) {
+            const floorData = await getFloor(data.itemId, data.id);
 
-          if (floorData.error) {
-            if (!context.isStreaming) {
-              throw floorData.error;
-            } else {
-              // Fallback to empty floor
-              return html`
-                &lt;section class=&quot;kur-floor&quot;&gt;&lt;/section&gt;
-              `;
+            if (floorData.error) {
+              if (!context.isStreaming) {
+                throw floorData.error;
+              } else {
+                // Fallback to empty floor
+                return html`
+                  &lt;section class=&quot;kur-floor&quot;&gt;&lt;/section&gt;
+                `;
+              }
             }
           }
-        }
-      </code></pre>
-      <pre class="code buffer"><code class="js">
-        import { handleError } from &apos;./error.js&apos;;
-        import { renderToStream, renderToString } from &apos;@popeindustries/lit-html-server&apos;;
-        import template from &apos;./template.js&apos;;
+        </code></pre>
+        <figcaption>/src/components/floor.js</figcaption>
+      </figure>
+      <figure class="buffer">
+        <pre class="code"><code class="js">
+          import { handleError } from './error.js';
+          import { renderToStream, renderToString }
+            from '@popeindustries/lit-html-server';
+          import template from './template.js';
 
-        app.get(&apos;/&apos;, async (request, reply) => {
-          let markup;
-          try {
-            if (request.isBot) {
-              markup = await renderToString(template());
-            } else {
-              markup = renderToStream(template());
-              markup.on(&apos;error&apos;, handleError);
+          app.get('/', async (request, reply) => {
+            let markup;
+            try {
+              if (request.isBot) {
+                markup = await renderToString(template());
+              } else {
+                markup = renderToStream(template());
+                markup.on('error', handleError);
+              }
+            } catch (err) {
+              return handleError(err);
             }
-          } catch (err) {
-            return handleError(err);
-          }
 
-          reply.type(&apos;text/html&apos;).code(200).send(markup);
-        })
-      </code></pre>
+            reply.type('text/html').code(200).send(markup);
+          })
+        </code></pre>
+        <figcaption>/src/route.js</figcaption>
+      </figure>
       <footer class="notes">
         <p class="note">A streaming template renderer is capable of rendering the data structure returned by a tagged template literal as a Node.js ReadableStream, and push data to the response stream as async template data is resolved</p>
-        <p class="note">This enables us to "flush early, flush often", even before we begin fetching api data</p>
-        <p class="note">This streaming approach simplifies request handling by allowing us to get the response out the door as fast as possible</p>
-        <p class="note">The only weakness with this approach is that you won't be able to change the response status code if an error occurs during async rendering</p>
-        <p class="note">In cases where status codes are important (search engines, health checks, liveness probes, etc), we check the user-agent against a list of known non-human agents and buffer instead</p>
+        <p class="note step">This enables us to "flush early, flush often", even before we begin fetching api data</p>
+        <p class="note step">This streaming approach simplifies request handling by allowing us to get the response out the door as fast as possible</p>
+        <p class="note step">The only weakness with this approach is that you won't be able to change the response status code if an error occurs during async rendering</p>
+        <p class="note step">In cases where status codes are important (search engines, health checks, liveness probes, etc), we check the user-agent against a list of known non-human agents and buffer instead</p>
       </footer>
     </section>
 
     <section id="cache">
       <h1>#6 Caching</h1>
-      <pre class="code agent"><code class="js">
-        import { Cache } from &apos;@nrk/frontend-common/cache.js&apos;;
-        import config from &apos;@nrk/frontend-common/config.js&apos;;
-        import { staleWhileRevalidate } from &apos;@nrk/frontend-common/cache-strategies.js&apos;;
-        import { template } from &apos;@nrk/frontend-common/string.js&apos;;
+      <figure class="agent">
+        <pre class="code"><code class="js">
+          import { Cache } from '@nrk/frontend-common/cache.js';
+          import config from '@nrk/frontend-common/config.js';
+          import { staleWhileRevalidate }
+            from '@nrk/frontend-common/cache-strategies.js';
+          import { template } from '@nrk/frontend-common/string.js';
 
-        const cache = new Cache();
-        const apiConfig = config.get(&apos;api&apos;);
+          const cache = new Cache();
 
-        async function getFloor(itemId, id, context) {
-          const url = template(apiConfig.urls.floor, { itemId, id });
-          try {
-            return await staleWhileRevalidate(url, {
-              defaultMaxAge: apiConfig.maxAgeImmutable,
-              requestOptions: {
-                retry: apiConfig.retry,
-                timeout: apiConfig.timeout
-              }
-            }).body;
-          } catch (error) {
-            return { id, itemId, error };
+          async function getFloor(itemId, id, context) {
+            const url = template(config.get('api.urls.floor'), { itemId, id });
+            try {
+              return await staleWhileRevalidate(url, {
+                defaultMaxAge: config.get('api.maxAgeImmutable'),
+                requestOptions: {
+                  retry: config.get('api.retry'),
+                  timeout: config.get('api.timeout')
+                }
+              }).body;
+            } catch (error) {
+              return { id, itemId, error };
+            }
           }
-        }
-      </code></pre>
+        </code></pre>
+        <figcaption>/src/api-agent.js</figcaption>
+      </figure>
       <footer class="notes">
         <p class="note">Streaming in this way is possible because we have pushed data fetching responsibility down the render tree, and this is only possible due to our fetching and caching infrastructure</p>
-        <p class="note">Built around a port of the Browser's Cache api, data fetching is implemented via one of three cache strategies: network-first, stale-while-revalidate, or network-only</p>
+        <p class="note step">Built around a port of the Browser's Cache api, data fetching is implemented via one of three cache strategies: network-first, stale-while-revalidate, or network-only</p>
         <p class="note">Includes retry, timeout, backoff, LRU, and request collapsing</p>
         <p class="note">Could be better: adaptive fetch control</p>
       </footer>
@@ -462,7 +509,7 @@
 
     <section id="sse">
       <h1>#8 EventSource</h1>
-      <img src="assets/images/newsfeed.jpg">
+      <img src="assets/newsfeed.jpg">
       <pre class="code"><code class="js">
         initEventSource() {
           // We don't polyfill very old IE, so bail

@@ -90,6 +90,10 @@ pre {
     }
   }
 }
+figure {
+  margin: 0;
+  padding: 0;
+}
 figcaption {
   @include center;
   background-color: $hot-pink;
