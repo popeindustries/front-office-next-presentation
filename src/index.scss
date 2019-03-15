@@ -50,9 +50,10 @@
 
 #front-office {
   figure {
-    margin: 0 auto;
+    left: 32.5vw;
+    margin: 0;
     opacity: 0;
-    position: relative;
+    position: absolute;
     transform: translateX(50vw);
     transition: all $transition-duration $transition-timing-cubic-out;
     width: 35vw;
@@ -133,43 +134,55 @@
   }
   &.hide {
     figure {
+      transform: translateX(0);
+    }
+    .highlight {
       opacity: 0;
-      transform: translateX(-50vw);
     }
   }
 }
 
 #front-office-next {
-  display: flex;
-  justify-content: center;
+  // display: flex;
+  // justify-content: center;
   figure {
-    box-shadow: $global-shadow;
-    margin: 1vw 2vw;
-    // opacity: 0;
-    overflow: hidden;
-    position: relative;
-    transform: translateX(50vw);
+    left: 32.5vw;
+    margin: 0;
+    position: absolute;
+    transform: translateX(0);
     transition: all $transition-duration $transition-timing-cubic-out;
     width: 35vw;
-    &:first-of-type {
-      transform: translateX(70vw);
+    &.next {
+      opacity: 0;
     }
     img {
+      box-shadow: $global-shadow;
       width: 100%;
     }
     figcaption {
       margin-top: 5vw;
+      opacity: 0;
+      transition: opacity $transition-duration-short linear;
     }
   }
-  &.show {
-    figure {
+  &.step-1 {
+    figure.prev {
+      transform: translateX(-19.5vw) scale(1);
+    }
+    figure.next {
       opacity: 1;
-      transform: translateX(0);
+      transform: translateX(19.5vw) scale(1);
+    }
+    figcaption {
+      opacity: 1;
     }
   }
   &.hide {
-    figure {
-      transform: scale(0.01);
+    figure.prev {
+      transform: translateX(-19.5vw) scale(0.01);
+    }
+    figure.next {
+      transform: translateX(19.5vw) scale(0.01);
     }
   }
 }
@@ -189,7 +202,7 @@
       transition: all $transition-duration $transition-timing-cubic-out;
       width: 1vw;
       &.prev {
-        transition-delay: 200ms;
+        transition-delay: 250ms;
       }
     }
     figcaption {
@@ -215,6 +228,9 @@
     .pixel.next {
       background-color: rgb(78, 214, 73);
     }
+  }
+  &.hide {
+    opacity: 0;
   }
 }
 
