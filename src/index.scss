@@ -683,3 +683,185 @@
     }
   }
 }
+
+#custom-elements {
+  h1 {
+    opacity: 0;
+    transition: opacity $transition-duration-short linear;
+  }
+  figure {
+    left: 10vw;
+    position: absolute;
+    top: 50%;
+    transform: translate(100vw, -50%);
+    transition: all $transition-duration $transition-timing-cubic-out;
+    &.markup {
+      left: 50%;
+    }
+    figcaption {
+      top: 0;
+      left: 0;
+      transform: translate(0, 0);
+    }
+  }
+  &.show {
+    h1 {
+      opacity: 1;
+    }
+  }
+  &.step-1 {
+    h1 {
+      opacity: 0;
+    }
+    .markup {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+  &.step-2 {
+    .markup {
+      opacity: 0;
+      transform: translate(-100vw, -50%);
+    }
+    .base-element {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+  }
+  &.hide {
+    .base-element {
+      opacity: 0;
+      transform: translate(-100vw, -50%);
+    }
+  }
+}
+
+#sse {
+  h1 {
+    opacity: 0;
+    transition: opacity $transition-duration-short linear;
+  }
+  img {
+    @include center;
+    box-shadow: $global-shadow;
+    opacity: 0;
+    transform: translate(100vw, -50%);
+    transition: all $transition-duration $transition-timing-cubic-out;
+    width: 80vw;
+  }
+  figure {
+    left: 10vw;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transform: translate(100vw, -50%);
+    transition: all $transition-duration $transition-timing-cubic-out;
+    figcaption {
+      top: 0;
+      left: 0;
+      transform: translate(0, 0);
+    }
+  }
+  &.show {
+    h1 {
+      opacity: 1;
+    }
+  }
+  &.step-1 {
+    h1 {
+      opacity: 0;
+    }
+    img {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+  &.step-2 {
+    img {
+      opacity: 0;
+      transform: translate(-100vw, -50%);
+    }
+    figure.es {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+  }
+  &.hide {
+    figure.es {
+      opacity: 0;
+      transform: translate(-100vw, -50%);
+    }
+  }
+}
+
+#embed {
+  h1 {
+    opacity: 0;
+    transition: opacity $transition-duration-short linear;
+  }
+  figure {
+    left: 10vw;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transform: translate(100vw, -50%);
+    transition: all $transition-duration $transition-timing-cubic-out;
+    &.backoffice {
+      box-shadow: $global-shadow;
+      left: 50%;
+      width: 40vw;
+      img {
+        width: 100%;
+      }
+    }
+    figcaption {
+      top: 0;
+      left: 0;
+      transform: translate(0, 0);
+    }
+  }
+  &.show {
+    h1 {
+      opacity: 1;
+    }
+  }
+  &.step-1 {
+    h1 {
+      opacity: 0;
+    }
+    .manifest {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+  }
+  &.step-2 {
+    .manifest {
+      opacity: 0;
+      transform: translate(-100vw, -50%);
+    }
+    .embedroom {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+  }
+  &.step-3 {
+    .embedroom {
+      opacity: 0;
+      transform: translate(-100vw, -50%);
+    }
+    .markup {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+  }
+  &.step-4 {
+    .markup {
+      opacity: 0;
+      transform: translate(-100vw, -50%);
+    }
+    .backoffice {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

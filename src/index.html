@@ -478,31 +478,37 @@
 
     <section id="custom-elements">
       <h1>#7 Custom Elements</h1>
-      <pre class="code markup"><code class="html">
-        &lt;kur-newsfeed url=&quot;https://kurator-ssehub.nrk.no&quot;&gt;&lt;/kur-newsfeed&gt;
-      </code></pre>
-      <pre class="code updatable"><code class="js">
-        import UpdatableElement from '../../utils/updatable-element.js';
+      <figure class="markup">
+        <pre class="code"><code class="html">
+          &lt;kur-newsfeed url=&quot;https://kurator-ssehub.nrk.no&quot;&gt;&lt;/kur-newsfeed&gt;
+        </code></pre>
+      </figure>
+      <figure class="base-element">
+        <pre class="code updatable"><code class="js">
+          import UpdatableElement from '../../utils/updatable-element.js';
 
-        class KurNewsfeed extends UpdatableElement {
-          static get properties() {
-            //...
+          class KurNewsfeed extends UpdatableElement {
+            static get properties() {
+              //...
+            }
+            initialise() {
+              //...
+            }
+            render() {
+              //...
+            }
           }
-          initialise() {
-            //...
-          }
-          render() {
-            //...
-          }
-        }
 
-        if (!window.customElements.get('kur-newsfeed')) {
-          window.customElements.define('kur-newsfeed', KurNewsfeed);
-        }
-      </code></pre>
+          if (!window.customElements.get('kur-newsfeed')) {
+            window.customElements.define('kur-newsfeed', KurNewsfeed);
+          }
+        </code></pre>
+        <figcaption>/src/components/newsfeed-client.js</figcaption>
+      </figure>
       <footer class="notes">
-        <p class="note">Next is largely a static page, but for the components that are interactive, we use Custom Elements to encapsulate client logic</p>
-        <p class="note">We created an element base class loosely based on lit-element</p>
+        <p class="note"></p>
+        <p class="note step">Next is largely a static page, but for the components that are interactive, we use Custom Elements to encapsulate client logic</p>
+        <p class="note step">We created an element base class loosely based on lit-element</p>
         <p class="note">The most importand feature of Custom Elements for Next is that components are self registering, and code can run as soon as possible before markup is rendered</p>
       </footer>
     </section>
@@ -510,29 +516,33 @@
     <section id="sse">
       <h1>#8 EventSource</h1>
       <img src="assets/newsfeed.jpg">
-      <pre class="code"><code class="js">
-        initEventSource() {
-          // We don't polyfill very old IE, so bail
-          if (!('EventSource' in window)) {
-            return;
-          }
-
-          // Return current history with '?getcache=1'
-          this.eventsource = new EventSource(`${this.url}?getcache=1`);
-          this.eventsource.onmessage = (msg) => {
-            const data = JSON.parse(msg.data);
-
-            // Skip if new data older than existing
-            if (this.data.updated > data.updated) {
+      <figure class="es">
+        <pre class="code"><code class="js">
+          initEventSource() {
+            // We don't polyfill very old IE, so bail
+            if (!('EventSource' in window)) {
               return;
             }
-            this.data = data;
-          };
-        }
-      </code></pre>
+
+            // Return current history with '?getcache=1'
+            this.eventsource = new EventSource(`${this.url}?getcache=1`);
+            this.eventsource.onmessage = (msg) => {
+              const data = JSON.parse(msg.data);
+
+              // Skip if new data older than existing
+              if (this.data.updated > data.updated) {
+                return;
+              }
+              this.data = data;
+            };
+          }
+        </code></pre>
+        <figcaption>/src/components/newsfeed-client.js</figcaption>
+      </figure>
       <footer class="notes">
-        <p class="note">The newsfeed component in Previous used Pusher and Web Sockets to get push updates. Next uses EventSource and Server Sent Events instead</p>
-        <p class="note">EventSource is a built-in long-polling protocol, and is supported by all browsers except Microsoft's, but is easily polyfilled. It is unidirectional (push only), and very lightweight</p>
+        <p class="note"></p>
+        <p class="note step">The newsfeed component in Previous used Pusher and Web Sockets to get push updates. Next uses EventSource and Server Sent Events instead</p>
+        <p class="note step">EventSource is a built-in long-polling protocol, and is supported by all browsers except Microsoft's, but is easily polyfilled. It is unidirectional (push only), and very lightweight</p>
         <p class="note">Instead of paying millions to Pusher every year, we run instances of VG's SSEHub C++ app in Kubernetes</p>
         <p class="note">We had troubles earlier with network scaling with lots of users, but now have a setup that can support over 200,000 connections</p>
       </footer>
@@ -540,12 +550,89 @@
 
     <section id="embed">
       <h1>#9 Core-Embed</h1>
+      <figure class="manifest">
+        <pre class="code"><code class="json">
+          {
+            "name": "nrk-fancy-ui-widget-v1",
+            "version": 1,
+            "description": "A fancy ui widget",
+            "host": "https://fancy.nrk.no/fancy-ui-widget/v1",
+            "package": "@nrk/fancy-ui-widget",
+            "config": {
+              "type": "object",
+              "required": ["title"],
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "expanded": {
+                  "type": "boolean",
+                  "default": true
+                }
+              }
+            },
+            "coreEmbedVersion": 1
+          }
+        </code></pre>
+        <figcaption>https://fancy.nrk.no/fancy-ui-widget/v1/embed.json</figcaption>
+      </figure>
+      <figure class="embedroom">
+        <pre class="code"><code class="js">
+          export default async function EmbedRoom({ manifest }, context) {
+            let basePath, content;
+
+            try {
+              const { render } = await dynamicImport(manifest.package);
+              content = render(manifest.config);
+              basePath = `/node_modules/${manifest.package}`;
+            } catch (err) {
+              // Fallback to hosted version
+              content = await postEmbedContent(manifest.host, manifest.config, context);
+              basePath = host;
+            }
+
+            return html`
+              &lt;div class=&quot;kur-room embed&quot;&gt;
+                ${renderDependencies('css', basePath, content.dependencies, context)}
+                ${unsafeHTML(content.markup)}
+                ${renderDependencies('js', basePath, content.dependencies, context)}
+              &lt;/div&gt;
+            `;
+          }
+        </code></pre>
+        <figcaption>/src/components/embed-room.js</figcaption>
+      </figure>
+      <figure class="markup">
+        <pre class="code"><code class="html">
+          &lt;div class=&quot;kur-room embed&quot;&gt;
+            &lt;link
+              rel=&quot;stylesheet&quot;
+              crossorigin=&quot;anonymous&quot;
+              href=&quot;https://fancy.nrk.no/fancy-ui-widget/v1/render/assets/index.css&quot;
+            /&gt;
+            &lt;!-- skipping https://static.nrk.no/core-fonts/major/2/core-fonts.css --&gt;
+            &lt;nrk-fancy-ui-widget-v1 expanded&gt;
+              &lt;h2&gt;Very Fancy Tittel&lt;/h2&gt;
+            &lt;/nrk-fancy-ui-widget-v1&gt;
+            &lt;script&gt;
+              window.loadScript(
+                &apos;https://fancy.nrk.no/fancy-ui-widget/v1/render/assets/index.js&apos;,
+                { async: false, defer: false, crossorigin: &apos;anonymous&apos; }
+              );
+            &lt;/script&gt;
+          &lt;/div&gt;
+        </code></pre>
+      </figure>
+      <figure class="backoffice">
+        <img src="assets/embed-bo.png">
+        <figcaption>Back Office</figcaption>
+      </figure>
       <footer class="notes">
         <p class="note">Next is also a 100% certified Core-Embed host application</p>
-        <p class="note">Core-Embed is a contract for embedding trusted content into a web application</p>
-        <p class="note"></p>
-        <p class="note"></p>
-        <p class="note"></p>
+        <p class="note step">Core-Embed is a contract for embedding trusted content into a web application</p>
+        <p class="note step"></p>
+        <p class="note step"></p>
+        <p class="note step"></p>
       </footer>
     </section>
   </main>
