@@ -114,7 +114,7 @@
     </section>
 
     <section id="steps">
-      <h1>9 <em>shocking</em> steps to simplifying <br>your application and your life</h1>
+      <h1>9 <em>shocking</em> steps to simplifying <br>your application (and your life)</h1>
       <footer class="notes">
         <p class="note"></p>
       </footer>
@@ -324,12 +324,12 @@
             `;
           }
         </code></pre>
-        <figcaption>/src/layout.js</figcaption>
+        <figcaption>/src/components/layout.js</figcaption>
       </figure>
       <figure class="component">
         <pre class="code"><code class="js">
           import Floor from './floor.js';
-          import { getHouse } from './api-agent.js';
+          import { getHouse } from '../data/api-agent.js';
           import { html } from '@popeindustries/lit-html-server';
 
           /**
@@ -337,7 +337,7 @@
            * @param {object} data
            * @param {string} data.houseId
            * @param {RenderContext} context
-           * @returns {Promise&lt;TemplateResult|undefined&gt;}
+           * @returns {Promise&lt;TemplateResult&gt;}
            */
           export default async function House(data, context) {
             const { floors } = await getHouse(data.houseId);
@@ -361,7 +361,7 @@
     </section>
 
     <section id="streaming">
-      <h1>#5 Streaming Renderer</h1>
+      <h1>#5 Streaming</h1>
       <figure class="pipe">
         <pre class="code"><code class="js">
           import { createServer } from 'http';
@@ -386,7 +386,7 @@
            * @param {string} data.itemId
            * @param {string} data.id
            * @param {RenderContext} context
-           * @returns {Promise&lt;TemplateResult|undefined&gt;}
+           * @returns {Promise&lt;TemplateResult&gt;}
            */
           export default async function Floor(data, context) {
             const floorData = await getFloor(data.itemId, data.id);
@@ -630,6 +630,23 @@
       <footer class="notes">
         <p class="note">Next is also a 100% certified Core-Embed host application</p>
         <p class="note step">Core-Embed is a contract for embedding trusted content into a web application</p>
+        <p class="note step"></p>
+        <p class="note step"></p>
+        <p class="note step"></p>
+      </footer>
+    </section>
+
+    <section id="done">
+      <h1>Done!</h1>
+      <ul>
+        <li class="one">Make configuration explicit and obvious</li>
+        <li class="two">Use modules the right way, <br>and only bundle for production</li>
+        <li class="three">Stream your responses</li>
+        <li class="four">Zero-tolerance for complexity!</li>
+      </ul>
+      <footer class="notes">
+        <p class="note"></p>
+        <p class="note step"></p>
         <p class="note step"></p>
         <p class="note step"></p>
         <p class="note step"></p>

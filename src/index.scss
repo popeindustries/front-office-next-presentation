@@ -864,4 +864,56 @@
       transform: translate(-50%, -50%);
     }
   }
+  &.hide {
+    .backoffice {
+      opacity: 0;
+      transform: translate(-100vw, -50%);
+    }
+  }
+}
+
+#done {
+  h1 {
+    opacity: 0;
+    transition: opacity $transition-duration-short linear;
+  }
+  ul {
+    @include center;
+    padding: 0;
+    li {
+      list-style: none;
+      opacity: 0;
+      padding: 2vw 0;
+      text-align: center;
+      transition: opacity $transition-duration-short linear;
+    }
+  }
+  &.show {
+    h1 {
+      opacity: 1;
+    }
+  }
+  &.step-1 {
+    h1 {
+      opacity: 0;
+    }
+    .one {
+      opacity: 1;
+    }
+  }
+  &.step-2 {
+    .two {
+      opacity: 1;
+    }
+  }
+  &.step-3 {
+    .three {
+      opacity: 1;
+    }
+  }
+  &.step-4 {
+    .four {
+      opacity: 1;
+    }
+  }
 }
