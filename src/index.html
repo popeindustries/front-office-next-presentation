@@ -199,10 +199,10 @@
       <footer class="notes">
         <p class="note">Reduce complexity by making things obvious</p>
         <p class="note step">Config.json: all configuration options in one place. Explicit about which values must be supplied by the runtime environment</p>
-        <p class="note step">Environment values from /config directory (Kubernetes ConfigMaps)</p>
+        <p class="note step">Environment values from /config directory (Kubernetes ConfigMaps) => throw if not set</p>
         <p class="note step">Missing values throw</p>
         <p class="note step">Application has no concept of environment, only configuration</p>
-        <p class="note step">Idea</p>
+        <p class="note step">Idea: verbose, but less code not always simpler</p>
       </footer>
     </section>
 
@@ -263,7 +263,7 @@
         <p class="note">Biggest change</p>
         <p class="note step">Previous: Nodemon, Babel, and Webpack (middleware) 12000/4000/7000</p>
         <p class="note step">Next: dvlp (+Sass) 2000/2000/10</p>
-        <p class="note">Faster, but simpler: application only aware of config</p>
+        <p class="note">Faster, but also simpler: application only aware of config</p>
         <p class="note step">Also mocking during runtime...</p>
         <p class="note step">...and testing</p>
       </footer>
@@ -273,8 +273,9 @@
       <h1>#3 ES Modules</h1>
       <figure class="waterfall">
         <img src="assets/waterfall.jpg">
+        <figcaption>http://localhost:3000</figcaption>
       </figure>
-      <figure>
+      <figure class="nodeisms">
         <pre class="code"><code class="js">
           import '../components/newsfeed/newsfeed-client.js';
           import { initStatistics } from './statistics/index.js';
@@ -282,12 +283,50 @@
         </code></pre>
         <figcaption>/src/client/index.js</figcaption>
       </figure>
+      <figure class="server">
+        <pre class="code"><code class="js">
+          import application from './src/server/index.js';
+          application();
+        </code></pre>
+        <figcaption>/index.js</figcaption>
+      </figure>
+      <figure class="bundle">
+        <pre class="code"><code class="js">
+          [{ /* Browser ES5 - IIFE */
+            input: {
+              'src/client/index.js': 'www/assets/index-[hash].js',
+              'src/client/index-legacy.js': 'www/assets/index-legacy-[hash].js'
+            },
+            rollup: {
+              plugins: rollupPluginsConfig({ browsers: ['ie >= 9'] }, [
+                '@babel/syntax-dynamic-import', ['module:fast-async', { spec: true }]
+              ])
+            }
+          },
+          { /* Browser ES6+ - IIFE */
+            input: { 'src/client/index.js': 'www/assets/index-[hash].mjs' },
+            rollup: {
+              plugins: rollupPluginsConfig({ esmodules: true }, ['@babel/syntax-dynamic-import'])
+            }
+          },
+          { /* Server - CJS */
+            input: { 'index.js': './index-bundle.js' },
+            rollup: {
+              format: 'cjs',
+              plugins: [commonjs(), resolve({ module: true, preferBuiltins: true }), json()]
+            }
+          }]
+        </code></pre>
+      </figure>
       <figure class="load">
         <pre class="code"><code class="html">
           &lt;head&gt;
+            &lt;!-- 1. preload .mjs --&gt;
             &lt;link rel=&quot;preload&quot; href=&quot;index.mjs&quot; as=&quot;script&quot;&gt;
             &lt;script&gt;
+              /* 2. store cuts-the-mustard */
               window.cutsTheMustard = testDOMProp('visibilityState', document);
+              /* 3. dynamically load polyfills */
               if (window.Reflect == null) {
                 loadScript('es6-polyfill.js', { async: false, defer: false });
               }
@@ -296,9 +335,11 @@
               }
             &lt;/script&gt;
             &lt;script&gt;
+              /* 4. dynamically load .mjs as 'type=module' */
               loadScript('index.mjs', { async: false, defer: false, module: true });
             &lt;/script&gt;
             &lt;script nomodule&gt;
+              /* 5. dynamically load .js or legacy.js in 'nomodule' */
               loadScript(window.cutsTheMustard ? 'index.js' : 'index-legacy.js',
                 { async: false, defer: false }
               );
@@ -307,12 +348,12 @@
         </code></pre>
       </figure>
       <footer class="notes">
-        <p class="note">Bundling is a production optimization (minification)</p>
-        <p class="note step">Idiomatic JavaScript + Node-isms (dvlp)</p>
-        <p class="note step">Idiomatic JavaScript + Node-isms (dvlp)</p>
-        <p class="note">Server and client code bundled in prod (Rollup.js)</p>
-        <p class="note step">Client code is bundled twice to allow for serving different code to different browsers</p>
-        <p class="note">This so-called differential bundling allows newer browsers to load untranspiled es6 code (async/await, classes, etc), and older browsers transpiled es5 code</p>
+        <p class="note">Bundling is a production optimization (like minification)</p>
+        <p class="note step">Browser loads dependencies</p>
+        <p class="note step">Idiomatic JavaScript + Nodeisms (dvlp)</p>
+        <p class="note step">Server (via dvlp)</p>
+        <p class="note step">Code bundled in prod (Rollup.js)</p>
+        <p class="note step">Differential bundle loading + polyfills</p>
       </footer>
     </section>
 
@@ -369,12 +410,18 @@
         </code></pre>
         <figcaption>/src/components/house.js</figcaption>
       </figure>
+      <figure class="highlight">
+        <img src="assets/lit.jpg">
+      </figure>
+      <div class="idea">
+        Template rehydration for client-side templates
+      </div>
       <footer class="notes">
-        <p class="note">For rendering markup, Next uses lit-html's template literal syntax (instead of React)</p>
-        <p class="note step">Template literals are a native JavaScript syntax for performing custom string interpolation</p>
-        <p class="note">lit-html adds some sugar for handling attributes, and various helper functions called directives</p>
-        <p class="note step">Note that the House component is an async function, and returns a Promise</p>
-        <p class="note">The tag function can return anything, not just a string</p>
+        <p class="note">How to render markup?</p>
+        <p class="note step">lit-html instead of React/JSX (no compile, fast)</p>
+        <p class="note step">Async</p>
+        <p class="note step">Syntax highlighting and formatting (Prettier)</p>
+        <p class="note step">Idea: add rehydration</p>
       </footer>
     </section>
 
@@ -449,11 +496,11 @@
         <figcaption>/src/route.js</figcaption>
       </figure>
       <footer class="notes">
-        <p class="note">A streaming template renderer is capable of rendering the data structure returned by a tagged template literal as a Node.js ReadableStream, and push data to the response stream as async template data is resolved</p>
-        <p class="note step">This enables us to "flush early, flush often", even before we begin fetching api data</p>
-        <p class="note step">This streaming approach simplifies request handling by allowing us to get the response out the door as fast as possible</p>
-        <p class="note step">The only weakness with this approach is that you won't be able to change the response status code if an error occurs during async rendering</p>
-        <p class="note step">In cases where status codes are important (search engines, health checks, liveness probes, etc), we check the user-agent against a list of known non-human agents and buffer instead</p>
+        <p class="note">HTTP is a streaming protocol</p>
+        <p class="note step">Simple: just pipe</p>
+        <p class="note step">Response out the door as fast as possible</p>
+        <p class="note step">Problem: errors & status code</p>
+        <p class="note step">Buffer for non-humans (Fastify)</p>
       </footer>
     </section>
 
@@ -475,6 +522,8 @@
               return await staleWhileRevalidate(url, {
                 defaultMaxAge: config.get('api.maxAgeImmutable'),
                 requestOptions: {
+                  backoff: config.get('api.backoff'),
+                  parser: floorParser,
                   retry: config.get('api.retry'),
                   timeout: config.get('api.timeout')
                 }
@@ -486,11 +535,34 @@
         </code></pre>
         <figcaption>/src/api-agent.js</figcaption>
       </figure>
+      <div class="idea">
+        Adaptive request configuration based on current and past network conditions:
+        <pre class="code no"><code class="js">
+          return await staleWhileRevalidate(url, {
+            defaultMaxAge: config.get('api.maxAgeImmutable'),
+            requestOptions: {
+              backoff: config.get('api.backoff'),
+              parser: floorParser,
+              retry: config.get('api.retry'),
+              timeout: config.get('api.timeout')
+            }
+          }).body;
+        </code></pre>
+        <pre class="code yes"><code class="js">
+          return await staleWhileRevalidate(url, {
+            defaultMaxAge: config.get('api.maxAgeImmutable'),
+            requestOptions: {
+              /* adaptive fetch control */
+              parser: floorParser
+            }
+          }).body;
+        </code></pre>
+      </div>
       <footer class="notes">
-        <p class="note">Streaming in this way is possible because we have pushed data fetching responsibility down the render tree, and this is only possible due to our fetching and caching infrastructure</p>
-        <p class="note step">Built around a port of the Browser's Cache api, data fetching is implemented via one of three cache strategies: network-first, stale-while-revalidate, or network-only</p>
+        <p class="note">Streaming possible due to component data fetching => caching</p>
+        <p class="note step">Browser's Cache api + cache strategies</p>
         <p class="note">Includes retry, timeout, backoff, LRU, and request collapsing</p>
-        <p class="note">Could be better: adaptive fetch control</p>
+        <p class="note step">Idea: adaptive fetch control</p>
       </footer>
     </section>
 
@@ -503,20 +575,24 @@
       </figure>
       <figure class="base-element">
         <pre class="code updatable"><code class="js">
-          import UpdatableElement from '../../utils/updatable-element.js';
+          import UpdatableElement from '../utils/updatable-element.js';
 
           class KurNewsfeed extends UpdatableElement {
             static get properties() {
-              //...
+              // define attribute/property behaviour
             }
             initialise() {
-              //...
+              // configure instance when added to DOM
             }
             render() {
-              //...
+              // render on attribute/property change
+            }
+            destroy() {
+              // clean up when removed from DOM
             }
           }
 
+          // Wire behaviour to custom tag type
           if (!window.customElements.get('kur-newsfeed')) {
             window.customElements.define('kur-newsfeed', KurNewsfeed);
           }
@@ -527,16 +603,17 @@
         <video loop src="assets/newsfeed.mp4"></video>
       </figure>
       <footer class="notes">
-        <p class="note"></p>
-        <p class="note step">Next is largely a static page, but for the components that are interactive, we use Custom Elements to encapsulate client logic</p>
-        <p class="note step">We created an element base class loosely based on lit-element</p>
-        <p class="note">The most importand feature of Custom Elements for Next is that components are self registering, and code can run as soon as possible before markup is rendered</p>
-        <p class="note step"></p>
+        <p class="note">Mostly static page with Custom Elements for interaction</p>
+        <p class="note step">Encapsulated logic. Lifecycle, SSR (no ShadowDOM)</p>
+        <p class="note step">Base class based on lit-element</p>
+        <p class="note step">Prop change triggers re-render (lit-html)</p>
+        <p class="note">Self-registering: no orchestration by app</p>
+        <p class="note">Web standard: backwards compat, maintenance/migration cost</p>
       </footer>
     </section>
 
     <section id="sse">
-      <h1>#8 EventSource</h1>
+      <h1>#8 EventSource (SSE)</h1>
       <img src="assets/newsfeed.jpg">
       <figure class="es">
         <pre class="code"><code class="js">
@@ -562,11 +639,10 @@
         <figcaption>/src/components/newsfeed-client.js</figcaption>
       </figure>
       <footer class="notes">
-        <p class="note"></p>
-        <p class="note step">The newsfeed component in Previous used Pusher and Web Sockets to get push updates. Next uses EventSource and Server Sent Events instead</p>
-        <p class="note step">EventSource is a built-in long-polling protocol, and is supported by all browsers except Microsoft's, but is easily polyfilled. It is unidirectional (push only), and very lightweight</p>
-        <p class="note">Instead of paying millions to Pusher every year, we run instances of VG's SSEHub C++ app in Kubernetes</p>
-        <p class="note">We had troubles earlier with network scaling with lots of users, but now have a setup that can support over 200,000 connections</p>
+        <p class="note">EventSource (SSE) simple built-in long-polling protocol (90% browser support)</p>
+        <p class="note step">Newsfeed component used Web Sockets and paid millions to Pusher</p>
+        <p class="note step">Push only, lightweight</p>
+        <p class="note">VG's SSEHub in Kubernetes (200,000 connections)</p>
       </footer>
     </section>
 
@@ -653,12 +729,22 @@
         <img src="assets/embed-bo.png">
         <figcaption>Back Office</figcaption>
       </figure>
+      <div class="idea">
+        Kurator-Plugins
+        <ul>
+          <li>new home for Newsfeed and other special plugin components</li>
+          <li>published as packaged Core-Embed guest content</li>
+          <li>predefined config "presets" loaded in Back-Office</li>
+        </ul>
+      </div>
       <footer class="notes">
-        <p class="note">Next is also a 100% certified Core-Embed host application</p>
+        <p class="note">Core-Embed host application (micro-frontend)</p>
         <p class="note step">Core-Embed is a contract for embedding trusted content into a web application</p>
-        <p class="note step"></p>
-        <p class="note step"></p>
-        <p class="note step"></p>
+        <p class="note step">Packaged or hosted</p>
+        <p class="note step">Stream-friendly: link/script in body, polyfills</p>
+        <p class="note step">Automatic cms integration</p>
+        <p class="note">Leverages earlier features: streaming render, component data fetch, data caching, CustomElements, polyfill loading, dependency dedup</p>
+        <p class="note step">Idea: plugins</p>
       </footer>
     </section>
 

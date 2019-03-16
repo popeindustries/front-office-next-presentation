@@ -34,6 +34,3 @@ $transition-timing-cubic-out: cubic-bezier(0.215, 0.61, 0.355, 1);
   opacity: $opacity;
   transform: translate($x, $y);
 }
-
-@mixin video() {
-}

@@ -438,12 +438,12 @@
     @include slide(0, 100vw, -50%);
     img {
       @include shadow;
-      figcaption {
-        top: 0;
-        left: 0;
-        transform: translate(0, 0);
-        width: 58vw;
-      }
+      width: 58vw;
+    }
+    figcaption {
+      top: 0;
+      left: 0;
+      transform: translate(0, 0);
     }
   }
   &.show {
@@ -461,6 +461,30 @@
   }
   &.step-2 {
     .waterfall {
+      @include slide(0, -100vw, -50%);
+    }
+    .nodeisms {
+      @include slide(1, -50%, -50%);
+    }
+  }
+  &.step-3 {
+    .nodeisms {
+      @include slide(0, -100vw, -50%);
+    }
+    .server {
+      @include slide(1, -50%, -50%);
+    }
+  }
+  &.step-4 {
+    .server {
+      @include slide(0, -100vw, -50%);
+    }
+    .bundle {
+      @include slide(1, -50%, -50%);
+    }
+  }
+  &.step-5 {
+    .bundle {
       @include slide(0, -100vw, -50%);
     }
     .load {
@@ -479,7 +503,8 @@
     @include transition(true);
     opacity: 0;
   }
-  figure {
+  figure,
+  .idea {
     @include center;
     @include slide(0, 100vw, -50%);
     @include transition;
@@ -487,6 +512,9 @@
       top: 0;
       left: 0;
       transform: translate(0, 0);
+    }
+    &.highlight {
+      @include shadow;
     }
   }
   &.show {
@@ -498,20 +526,36 @@
     h1 {
       opacity: 0;
     }
-    figure.layout {
+    .layout {
       @include slide(1, -50%, -50%);
     }
   }
   &.step-2 {
-    figure.layout {
+    .layout {
       @include slide(0, -100vw, -50%);
     }
-    figure.component {
+    .component {
+      @include slide(1, -50%, -50%);
+    }
+  }
+  &.step-3 {
+    .component {
+      @include slide(0, -100vw, -50%);
+    }
+    .highlight {
+      @include slide(1, -50%, -50%);
+    }
+  }
+  &.step-4 {
+    .highlight {
+      @include slide(0, -100vw, -50%);
+    }
+    .idea {
       @include slide(1, -50%, -50%);
     }
   }
   &.hide {
-    figure.component {
+    .idea {
       @include slide(0, -100vw, -50%);
     }
   }
@@ -582,7 +626,8 @@
     @include transition(true);
     opacity: 0;
   }
-  figure {
+  figure,
+  .idea {
     @include center;
     @include slide(0, 100vw, -50%);
     @include transition;
@@ -605,8 +650,16 @@
       @include slide(1, -50%, -50%);
     }
   }
-  &.hide {
+  &.step-2 {
     .agent {
+      @include slide(0, -100vw, -50%);
+    }
+    .idea {
+      @include slide(1, -50%, -50%);
+    }
+  }
+  &.hide {
+    .idea {
       @include slide(0, -100vw, -50%);
     }
   }
@@ -619,8 +672,10 @@
   }
   figure {
     @include center;
-    @include slide(0, 100vw, -50%);
-    @include transition;
+    &:not(.video) {
+      @include slide(0, 100vw, -50%);
+      @include transition;
+    }
     &.video {
       @include shadow;
       @include transition(true);
@@ -735,7 +790,8 @@
     @include transition(true);
     opacity: 0;
   }
-  figure {
+  figure,
+  .idea {
     @include center;
     @include slide(0, 100vw, -50%);
     @include transition;
@@ -751,6 +807,9 @@
       left: 0;
       transform: translate(0, 0);
     }
+  }
+  .idea {
+    width: 80vw;
   }
   &.show {
     h1 {
@@ -789,8 +848,16 @@
       @include slide(1, -50%, -50%);
     }
   }
-  &.hide {
+  &.step-5 {
     .backoffice {
+      @include slide(0, -100vw, -50%);
+    }
+    .idea {
+      @include slide(1, -50%, -50%);
+    }
+  }
+  &.hide {
+    .idea {
       @include slide(0, -100vw, -50%);
     }
   }

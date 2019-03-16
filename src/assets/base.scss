@@ -94,6 +94,7 @@ figure {
   margin: 0;
   padding: 0;
   img {
+    display: block;
     width: 100%;
   }
 }
@@ -123,8 +124,10 @@ figcaption {
 .idea {
   background-color: $yellow;
   box-shadow: $global-shadow;
+  font-size: 2.5vw;
   display: inline-block;
   padding: 2vw 2vw 3vw;
+  max-width: 80vw;
   &::before {
     content: '💡';
     font-size: 200%;
