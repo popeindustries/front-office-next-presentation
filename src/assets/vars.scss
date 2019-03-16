@@ -1,6 +1,9 @@
 $black: #0b1728;
 $white: #fefefe;
 $hot-pink: #fc2e61;
+$yellow: #fff8bd;
+$green: #56eb56;
+$red: #ff5e46;
 $border-width: 1.2vw;
 $global-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
 $transition-duration: 400ms;
@@ -13,4 +16,24 @@ $transition-timing-cubic-out: cubic-bezier(0.215, 0.61, 0.355, 1);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+@mixin shadow() {
+  box-shadow: $global-shadow;
+}
+
+@mixin transition($opacity: false) {
+  @if ($opacity) {
+    transition: opacity $transition-duration-short linear;
+  } @else {
+    transition: all $transition-duration $transition-timing-cubic-out;
+  }
+}
+
+@mixin slide($opacity, $x: 0, $y: 0) {
+  opacity: $opacity;
+  transform: translate($x, $y);
+}
+
+@mixin video() {
 }

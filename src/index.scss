@@ -17,18 +17,14 @@
   display: flex;
   justify-content: center;
   figure {
-    box-shadow: $global-shadow;
+    @include shadow;
+    @include slide(0, 50vw, 0);
+    @include transition;
     margin: 1vw 2vw;
-    opacity: 0;
     overflow: hidden;
-    transform: translateX(50vw);
     position: relative;
-    transition: all $transition-duration $transition-timing-cubic-out;
-    &:first-of-type {
-      transform: translateX(70vw);
-    }
-    img {
-      width: 100%;
+    &:last-of-type {
+      transition-delay: 100ms;
     }
     figcaption {
       margin-top: 5vw;
@@ -36,37 +32,29 @@
   }
   &.step-1 {
     figure {
-      opacity: 1;
-      transform: translateX(0);
+      @include slide(1, 0, 0);
     }
   }
   &.hide {
     figure {
-      opacity: 0;
-      transform: translateX(-60vw);
+      @include slide(0, -50vw, 0);
     }
   }
 }
 
 #front-office {
   figure {
+    @include shadow;
+    @include slide(0, 100vw, 0);
+    @include transition;
     left: 32.5vw;
-    margin: 0;
-    opacity: 0;
     position: absolute;
-    transform: translateX(50vw);
-    transition: all $transition-duration $transition-timing-cubic-out;
     width: 35vw;
-    img {
-      box-shadow: $global-shadow;
-      display: block;
-      width: 100%;
-    }
     .highlight {
+      @include transition(true);
       display: block;
       opacity: 0;
       position: absolute;
-      transition: opacity $transition-duration-short linear;
       span {
         @include center;
         background-color: $hot-pink;
@@ -108,8 +96,7 @@
   }
   &.show {
     figure {
-      opacity: 1;
-      transform: translateX(0);
+      @include slide(1, 0, 0);
     }
   }
   &.step-1 {
@@ -143,33 +130,27 @@
 }
 
 #front-office-next {
-  // display: flex;
-  // justify-content: center;
   figure {
+    @include shadow;
+    @include transition;
     left: 32.5vw;
-    margin: 0;
     position: absolute;
     transform: translateX(0);
-    transition: all $transition-duration $transition-timing-cubic-out;
     width: 35vw;
     &.next {
       opacity: 0;
     }
-    img {
-      box-shadow: $global-shadow;
-      width: 100%;
-    }
     figcaption {
+      @include transition(true);
       margin-top: 5vw;
       opacity: 0;
-      transition: opacity $transition-duration-short linear;
     }
   }
   &.step-1 {
-    figure.prev {
+    .prev {
       transform: translateX(-19.5vw) scale(1);
     }
-    figure.next {
+    .next {
       opacity: 1;
       transform: translateX(19.5vw) scale(1);
     }
@@ -178,10 +159,10 @@
     }
   }
   &.hide {
-    figure.prev {
+    .prev {
       transform: translateX(-19.5vw) scale(0.01);
     }
-    figure.next {
+    .next {
       transform: translateX(19.5vw) scale(0.01);
     }
   }
@@ -196,10 +177,10 @@
     width: 35vw;
     .pixel {
       @include center;
+      @include transition;
       background-color: $black;
       height: 1vw;
       transform-origin: center;
-      transition: all $transition-duration $transition-timing-cubic-out;
       width: 1vw;
       &.prev {
         transition-delay: 250ms;
@@ -251,28 +232,24 @@
   display: flex;
   justify-content: space-evenly;
   img {
+    @include slide(0, 100vw, 0);
+    @include transition;
     height: 100%;
-    // margin-left: 5vw;
-    opacity: 0;
-    transform: translateX(100vw);
-    transition: all $transition-duration $transition-timing-cubic-out;
   }
   ul {
     margin: 2vw 3vw;
     padding: 0;
     li {
+      @include transition(true);
       list-style: none;
       margin: 5vw 0;
       opacity: 0;
-      // text-align: center;
       font-style: italic;
-      transition: opacity $transition-duration-short linear;
     }
   }
   &.show {
     img {
-      opacity: 1;
-      transform: translateX(25vw);
+      @include slide(1, 25vw, 0);
     }
   }
   &.step-1 {
@@ -300,16 +277,14 @@
 
 #config {
   h1 {
+    @include transition(true);
     opacity: 0;
-    transition: opacity $transition-duration-short linear;
   }
-  figure {
-    left: 10vw;
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    transform: translate(100vw, -50%);
-    transition: all $transition-duration $transition-timing-cubic-out;
+  figure,
+  .idea {
+    @include center;
+    @include transition;
+    @include slide(0, 100vw, -50%);
     figcaption {
       top: 0;
       left: 0;
@@ -325,61 +300,59 @@
     h1 {
       opacity: 0;
     }
-    figure.config-json {
-      opacity: 1;
-      transform: translate(0, -50%);
+    .config-json {
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-2 {
-    figure.config-json {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+    .config-json {
+      @include slide(0, -100vw, -50%);
     }
-    figure.config-dir {
-      opacity: 1;
-      transform: translate(0, -50%);
+    .config-dir {
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-3 {
-    figure.config-dir {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+    .config-dir {
+      @include slide(0, -100vw, -50%);
     }
-    figure.config-js {
-      opacity: 1;
-      transform: translate(0, -50%);
+    .config-js {
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-4 {
-    figure.config-js {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+    .config-js {
+      @include slide(0, -100vw, -50%);
     }
-    figure.config-node-env {
-      opacity: 1;
-      transform: translate(0, -50%);
+    .config-node-env {
+      @include slide(1, -50%, -50%);
+    }
+  }
+  &.step-5 {
+    .config-node-env {
+      @include slide(0, -100vw, -50%);
+    }
+    .idea {
+      @include slide(1, -50%, -50%);
     }
   }
   &.hide {
-    figure.config-node-env {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+    .idea {
+      @include slide(0, -100vw, -50%);
     }
   }
 }
 
 #dev-env {
   h1 {
+    @include transition(true);
     opacity: 0;
-    transition: opacity $transition-duration-short linear;
   }
   figure {
-    position: absolute;
-    top: 50%;
+    @include center;
+    @include transition;
     &:not(.video) {
-      left: 10vw;
-      transform: translate(100vw, -50%);
-      transition: all $transition-duration $transition-timing-cubic-out;
+      @include slide(0, 100vw, -50%);
       figcaption {
         top: 0;
         left: 0;
@@ -387,11 +360,10 @@
       }
     }
     &.video {
-      @include center;
-      box-shadow: $global-shadow;
+      @include shadow;
+      @include transition(true);
       max-width: 1100px;
       opacity: 0;
-      transition: opacity $transition-duration-short linear;
       width: 80vw;
       video {
         visibility: hidden;
@@ -437,52 +409,41 @@
       }
     }
     .mock {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-4 {
     .mock {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
     .test {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.hide {
     .test {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
   }
 }
 
 #modules {
   h1 {
+    @include transition(true);
     opacity: 0;
-    transition: opacity $transition-duration-short linear;
   }
   figure {
-    position: absolute;
-    top: 50%;
-    transform: translate(100vw, -50%);
-    transition: all $transition-duration $transition-timing-cubic-out;
-    &:not(.waterfall) {
-      left: 10vw;
-    }
-    &.waterfall {
-      left: 50%;
-    }
+    @include center;
+    @include transition;
+    @include slide(0, 100vw, -50%);
     img {
-      box-shadow: $global-shadow;
-      width: 58vw;
-    }
-    figcaption {
-      top: 0;
-      left: 0;
-      transform: translate(0, 0);
+      @include shadow;
+      figcaption {
+        top: 0;
+        left: 0;
+        transform: translate(0, 0);
+        width: 58vw;
+      }
     }
   }
   &.show {
@@ -495,40 +456,33 @@
       opacity: 0;
     }
     .waterfall {
-      opacity: 1;
-      transform: translate(-50%, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-2 {
     .waterfall {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
     .load {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.hide {
     .load {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
   }
 }
 
 #templates {
   h1 {
+    @include transition(true);
     opacity: 0;
-    transition: opacity $transition-duration-short linear;
   }
   figure {
-    left: 10vw;
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    transform: translate(100vw, -50%);
-    transition: all $transition-duration $transition-timing-cubic-out;
+    @include center;
+    @include slide(0, 100vw, -50%);
+    @include transition;
     figcaption {
       top: 0;
       left: 0;
@@ -545,48 +499,34 @@
       opacity: 0;
     }
     figure.layout {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-2 {
     figure.layout {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
     figure.component {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.hide {
     figure.component {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
   }
 }
 
 #streaming {
   h1 {
+    @include transition(true);
     opacity: 0;
-    transition: opacity $transition-duration-short linear;
   }
   figure {
-    position: absolute;
-    top: 50%;
-    transform: translate(100vw, -50%);
-    transition: all $transition-duration $transition-timing-cubic-out;
-    &:not(.server-timing) {
-      left: 10vw;
-    }
-    &.server-timing {
-      left: 50%;
-    }
-    img {
-      box-shadow: $global-shadow;
-      width: 50vw;
-    }
+    @include center;
+    @include shadow;
+    @include slide(0, 100vw, -50%);
+    @include transition;
     figcaption {
       top: 0;
       left: 0;
@@ -603,59 +543,49 @@
       opacity: 0;
     }
     .pipe {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-2 {
     .pipe {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
     .server-timing {
-      opacity: 1;
-      transform: translate(-50%, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-3 {
     .server-timing {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
     .error {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-4 {
     .error {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
     .buffer {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.hide {
     .buffer {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
   }
 }
 
 #cache {
   h1 {
+    @include transition(true);
     opacity: 0;
-    transition: opacity $transition-duration-short linear;
   }
   figure {
-    left: 10vw;
-    position: absolute;
-    top: 50%;
-    transform: translate(100vw, -50%);
-    transition: all $transition-duration $transition-timing-cubic-out;
+    @include center;
+    @include slide(0, 100vw, -50%);
+    @include transition;
     figcaption {
       top: 0;
       left: 0;
@@ -672,38 +602,30 @@
       opacity: 0;
     }
     .agent {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.hide {
     .agent {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
   }
 }
 
 #custom-elements {
   h1 {
+    @include transition(true);
     opacity: 0;
-    transition: opacity $transition-duration-short linear;
   }
   figure {
-    left: 10vw;
-    position: absolute;
-    top: 50%;
-    transform: translate(100vw, -50%);
-    transition: all $transition-duration $transition-timing-cubic-out;
-    &.markup {
-      left: 50%;
-    }
+    @include center;
+    @include slide(0, 100vw, -50%);
+    @include transition;
     &.video {
-      @include center;
-      box-shadow: $global-shadow;
+      @include shadow;
+      @include transition(true);
       max-width: 1000px;
       opacity: 0;
-      transition: opacity $transition-duration-short linear;
       width: 50vw;
       video {
         visibility: hidden;
@@ -726,24 +648,20 @@
       opacity: 0;
     }
     .markup {
-      opacity: 1;
-      transform: translate(-50%, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-2 {
     .markup {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
     .base-element {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-3 {
     .base-element {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
     .video {
       opacity: 1;
@@ -765,23 +683,19 @@
 #sse {
   h1 {
     opacity: 0;
-    transition: opacity $transition-duration-short linear;
+    @include transition(true);
   }
   img {
     @include center;
-    box-shadow: $global-shadow;
-    opacity: 0;
-    transform: translate(100vw, -50%);
-    transition: all $transition-duration $transition-timing-cubic-out;
+    @include shadow;
+    @include slide(0, 100vw, -50%);
+    @include transition;
     width: 80vw;
   }
   figure {
-    left: 10vw;
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    transform: translate(100vw, -50%);
-    transition: all $transition-duration $transition-timing-cubic-out;
+    @include center;
+    @include slide(0, 100vw, -50%);
+    @include transition;
     figcaption {
       top: 0;
       left: 0;
@@ -798,46 +712,38 @@
       opacity: 0;
     }
     img {
-      opacity: 1;
-      transform: translate(-50%, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-2 {
     img {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
     figure.es {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.hide {
     figure.es {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
   }
 }
 
 #embed {
   h1 {
+    @include transition(true);
     opacity: 0;
-    transition: opacity $transition-duration-short linear;
   }
   figure {
-    left: 10vw;
-    opacity: 0;
-    position: absolute;
-    top: 50%;
-    transform: translate(100vw, -50%);
-    transition: all $transition-duration $transition-timing-cubic-out;
+    @include center;
+    @include slide(0, 100vw, -50%);
+    @include transition;
     &.backoffice {
-      box-shadow: $global-shadow;
-      left: 50%;
-      width: 40vw;
+      @include shadow;
       img {
-        width: 100%;
+        left: 50%;
+        width: 40vw;
       }
     }
     figcaption {
@@ -856,62 +762,54 @@
       opacity: 0;
     }
     .manifest {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-2 {
     .manifest {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
     .embedroom {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-3 {
     .embedroom {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
     .markup {
-      opacity: 1;
-      transform: translate(0, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.step-4 {
     .markup {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
     .backoffice {
-      opacity: 1;
-      transform: translate(-50%, -50%);
+      @include slide(1, -50%, -50%);
     }
   }
   &.hide {
     .backoffice {
-      opacity: 0;
-      transform: translate(-100vw, -50%);
+      @include slide(0, -100vw, -50%);
     }
   }
 }
 
 #done {
   h1 {
+    @include transition(true);
     opacity: 0;
-    transition: opacity $transition-duration-short linear;
   }
   ul {
     @include center;
     padding: 0;
     li {
+      @include transition(true);
       list-style: none;
       opacity: 0;
       padding: 2vw 0;
       text-align: center;
-      transition: opacity $transition-duration-short linear;
     }
   }
   &.show {

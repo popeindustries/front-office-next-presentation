@@ -71,7 +71,7 @@ code {
   font-size: 90%;
 }
 pre {
-  margin: 0 2vw;
+  margin: 1vw 2vw 0;
   width: auto;
   code {
     font-size: 1.5vw;
@@ -93,6 +93,9 @@ pre {
 figure {
   margin: 0;
   padding: 0;
+  img {
+    width: 100%;
+  }
 }
 figcaption {
   @include center;
@@ -115,6 +118,29 @@ figcaption {
   }
   .dev & {
     border: 1px solid red;
+  }
+}
+.idea {
+  background-color: $yellow;
+  box-shadow: $global-shadow;
+  display: inline-block;
+  padding: 2vw 2vw 3vw;
+  &::before {
+    content: '💡';
+    font-size: 200%;
+    margin: -1vw;
+  }
+  .code {
+    background-color: $white;
+    border-left-width: 1vw;
+    border-left-style: solid;
+    padding: 0 2vw;
+    &.no {
+      border-left-color: $red;
+    }
+    &.yes {
+      border-left-color: $green;
+    }
   }
 }
 .clock {

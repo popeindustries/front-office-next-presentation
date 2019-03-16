@@ -27,8 +27,8 @@
         <figcaption>Front-Office</figcaption>
       </figure>
       <footer class="notes">
-        <p class="note">We are very fond of cute code names here at NRK</p>
-        <p class="note step">This is Kurator. It has two components: Back-Office is the application Journalists use to edit content, and Front-Office is the application that renders that content for the web</p>
+        <p class="note">code names</p>
+        <p class="note step">Kurator: Back-Office & Front-Office</p>
       </footer>
     </section>
 
@@ -41,11 +41,11 @@
         <span class="highlight highlight-newsfeed"><span>guestroom (newsfeed)</span></span>
       </figure>
       <footer class="notes">
-        <p class="note">Front-Office is further divided into multiple parts</p>
-        <p class="note step">This is a house</p>
-        <p class="note step">This is a floor in that house</p>
-        <p class="note step">This is a room in that floor</p>
-        <p class="note step">And this is a guestroom called newsfeed</p>
+        <p class="note">Front-Office parts</p>
+        <p class="note step">House</p>
+        <p class="note step">Floor</p>
+        <p class="note step">Room</p>
+        <p class="note step">Guestroom called Newsfeed</p>
       </footer>
     </section>
 
@@ -59,8 +59,8 @@
         <figcaption>Previous</figcaption>
       </figure>
       <footer class="notes">
-        <p class="note">Last summer I asked Kristoffer, who was tech lead for Kurator at the time, if we could rewrite Front-Office. He said yes, as long as it looked exactly like the existing version</p>
-        <p class="note step">Six months later, we have two versions of Front-Office: Previous and Next</p>
+        <p class="note">6 months ago...</p>
+        <p class="note step">2 versions: Previous and Next</p>
       </footer>
     </section>
 
@@ -74,27 +74,27 @@
         <figcaption>Next</figcaption>
       </figure>
       <footer class="notes">
-        <p class="note">If we compare a pixel from Previous and one from Next, they look the same</p>
-        <p class="note step">But if a user gets that pixel sooner, are they really the same?</p>
-        <p class="note step">And if a user wants a blue version of that pixel...</p>
-        <p class="note step">...or purple...</p>
-        <p class="note step">...or green...</p>
-        <p class="note">...then they really aren't the same at all</p>
+        <p class="note">Pixels are the same</p>
+        <p class="note step">Faster</p>
+        <p class="note step">Blue</p>
+        <p class="note step">Purple</p>
+        <p class="note step">Green</p>
+        <p class="note">same?</p>
       </footer>
     </section>
 
     <section id="perf">
       <h1>Performance is a <em>feature</em></h1>
       <footer class="notes">
-        <p class="note">This was the real motivation for the rewrite: improve render performance in order to be able to offer customized content</p>
-        <p class="note">Performance is hard to observe directly, but it can enable other more visible features, and we wanted to open up for delivering personalised content on nrk.no</p>
+        <p class="note">Faster => customized</p>
+        <p class="note">Performance is a feature multiplier</p>
       </footer>
     </section>
 
     <section id="simpler">
       <h1>"reducing complexity is the most important element of software design"</h1>
       <footer class="notes">
-        <p class="note">My real motivation, however, was to design a system that was simpler</p>
+        <p class="note">Make is simpler</p>
       </footer>
     </section>
 
@@ -106,7 +106,7 @@
         <li class="three">"developers should <strong>always</strong> be thinking about complexity"</li>
       </ul>
       <footer class="notes">
-        <p class="note">This book by John Ousterhout is fantastic, and basically deals with high level techniques for reducing complexity in software systems</p>
+        <p class="note">John Ousterhout</p>
         <p class="note step">quote</p>
         <p class="note step">quote</p>
         <p class="note step">quote</p>
@@ -185,13 +185,24 @@
         </code></pre>
         <figcaption>/config/local.json</figcaption>
       </figure>
+      <div class="idea">
+        Make it illegal to retrieve partial keys:
+        <pre class="code no"><code class="js">
+          const { timeout, retry } = config.get('api');
+          // Boom! Error no config value found for "api"
+        </code></pre>
+        <pre class="code yes"><code class="js">
+          const timeout = config.get('api.timeout');
+          const retry = config.get('api.retry');
+        </code></pre>
+      </div>
       <footer class="notes">
-        <p class="note">One of the most important goals of good design is for a system to be obvious, and one place where being obvious is important is application configuration</p>
-        <p class="note step">Our new config setup describes all configuration options in one place (config.json), and is explicit about which values must be supplied by the runtime environment</p>
-        <p class="note step">Environment values are loaded from the /config directory, which can be populated using Kubernetes ConfigMaps</p>
-        <p class="note step">During runtime, any missing environment variables will throw and cause the application to crash, preventing rollout</p>
-        <p class="note">Reading non-existant values will also throw an error. Obvious errors are simpler to fix than hidden ones</p>
-        <p class="note step">Another benefit of being explicit is that the application has no concept of environment, only configuration, which is also much simpler</p>
+        <p class="note">Reduce complexity by making things obvious</p>
+        <p class="note step">Config.json: all configuration options in one place. Explicit about which values must be supplied by the runtime environment</p>
+        <p class="note step">Environment values from /config directory (Kubernetes ConfigMaps)</p>
+        <p class="note step">Missing values throw</p>
+        <p class="note step">Application has no concept of environment, only configuration</p>
+        <p class="note step">Idea</p>
       </footer>
     </section>
 
@@ -249,12 +260,11 @@
         <figcaption>/test/some-test.js</figcaption>
       </figure>
       <footer class="notes">
-        <p class="note">Probably the biggest differnce between Previous and Next is the development environment</p>
-        <p class="note step">Previous used Nodemon to restart the application server, Babel to transpile server code, and Webpack to compile assets for the browser</p>
-        <p class="note">This type of tooling chain is complex to set up, slow to restart after changes, and requires special server middleware to be used, forcing the application to be aware of it's environment</p>
-        <p class="note step">Next uses dvlp to restart the application server, esm to enable es modules for server code, and no asset compiler (except Sass)</p>
-        <p class="note">Most importantly, however, is that the application itself is totally unaware it's running in development. There is no difference between development and production code beyond configuration</p>
-        <p class="note step">With dvlp we also get easy mocking during runtime...</p>
+        <p class="note">Biggest change</p>
+        <p class="note step">Previous: Nodemon, Babel, and Webpack (middleware) 12000/4000/7000</p>
+        <p class="note step">Next: dvlp (+Sass) 2000/2000/10</p>
+        <p class="note">Faster, but simpler: application only aware of config</p>
+        <p class="note step">Also mocking during runtime...</p>
         <p class="note step">...and testing</p>
       </footer>
     </section>
@@ -263,6 +273,14 @@
       <h1>#3 ES Modules</h1>
       <figure class="waterfall">
         <img src="assets/waterfall.jpg">
+      </figure>
+      <figure>
+        <pre class="code"><code class="js">
+          import '../components/newsfeed/newsfeed-client.js';
+          import { initStatistics } from './statistics/index.js';
+          import 'lazysizes';
+        </code></pre>
+        <figcaption>/src/client/index.js</figcaption>
       </figure>
       <figure class="load">
         <pre class="code"><code class="html">
@@ -289,10 +307,10 @@
         </code></pre>
       </figure>
       <footer class="notes">
-        <p class="note">The most important development principle is that Next treats bundling as a production optimization, like minification</p>
-        <p class="note step">During development, js files are loaded by the browser via standard es module import syntax</p>
-        <p class="note">We write idiomatic JavaScript, and dvlp handles resolving bare imports behind the scenes</p>
-        <p class="note">In production, server and client code is bundled with Rollup.js</p>
+        <p class="note">Bundling is a production optimization (minification)</p>
+        <p class="note step">Idiomatic JavaScript + Node-isms (dvlp)</p>
+        <p class="note step">Idiomatic JavaScript + Node-isms (dvlp)</p>
+        <p class="note">Server and client code bundled in prod (Rollup.js)</p>
         <p class="note step">Client code is bundled twice to allow for serving different code to different browsers</p>
         <p class="note">This so-called differential bundling allows newer browsers to load untranspiled es6 code (async/await, classes, etc), and older browsers transpiled es5 code</p>
       </footer>
