@@ -517,6 +517,9 @@
       @include shadow;
     }
   }
+  .idea {
+    width: 65vw;
+  }
   &.show {
     h1 {
       opacity: 1;
@@ -870,6 +873,7 @@
   }
   ul {
     @include center;
+    margin-top: -1vw;
     padding: 0;
     li {
       @include transition(true);
@@ -904,6 +908,11 @@
   }
   &.step-4 {
     .four {
+      opacity: 1;
+    }
+  }
+  &.step-5 {
+    .five {
       opacity: 1;
     }
   }

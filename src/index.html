@@ -499,7 +499,7 @@
         <p class="note">HTTP is a streaming protocol</p>
         <p class="note step">Simple: just pipe</p>
         <p class="note step">Response out the door as fast as possible</p>
-        <p class="note step">Problem: errors & status code</p>
+        <p class="note step">Challenge: errors & status code</p>
         <p class="note step">Buffer for non-humans (Fastify)</p>
       </footer>
     </section>
@@ -536,13 +536,12 @@
         <figcaption>/src/api-agent.js</figcaption>
       </figure>
       <div class="idea">
-        Adaptive request configuration based on current and past network conditions:
+        Adaptive request configuration based on existing network conditions:
         <pre class="code no"><code class="js">
           return await staleWhileRevalidate(url, {
             defaultMaxAge: config.get('api.maxAgeImmutable'),
             requestOptions: {
               backoff: config.get('api.backoff'),
-              parser: floorParser,
               retry: config.get('api.retry'),
               timeout: config.get('api.timeout')
             }
@@ -551,10 +550,7 @@
         <pre class="code yes"><code class="js">
           return await staleWhileRevalidate(url, {
             defaultMaxAge: config.get('api.maxAgeImmutable'),
-            requestOptions: {
-              /* adaptive fetch control */
-              parser: floorParser
-            }
+            requestOptions: { /* adaptive fetch control */ }
           }).body;
         </code></pre>
       </div>
@@ -752,12 +748,14 @@
       <h1>Done!</h1>
       <ul>
         <li class="one">Make configuration explicit and obvious</li>
-        <li class="two">Use modules the right way, <br>and only bundle for production</li>
+        <li class="two">Save bundling for production</li>
         <li class="three">Stream your responses</li>
-        <li class="four">Zero-tolerance for complexity!</li>
+        <li class="four">Stick to standards</li>
+        <li class="five">Zero-tolerance for complexity!</li>
       </ul>
       <footer class="notes">
         <p class="note"></p>
+        <p class="note step"></p>
         <p class="note step"></p>
         <p class="note step"></p>
         <p class="note step"></p>
