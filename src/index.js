@@ -81,7 +81,7 @@ function changeSlide(slideIndex, back) {
     window.history.pushState(
       {},
       '',
-      window.location.pathname.replace(/\/\d*$/, `/${slideIndex}`)
+      window.location.href.replace(/\/\d*$/, `/${slideIndex}`)
     );
   }
 }
@@ -419,7 +419,7 @@ if (isNotes) {
     }
     if (isLocal) {
       window.addEventListener('popstate', onPopState, false);
-      window.history.replaceState({}, document.title, window.location.pathname);
+      window.history.replaceState({}, document.title, window.location.href);
     }
     changeSlide(startingSlide);
   }

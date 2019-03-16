@@ -19,7 +19,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "dev": "dvlp --port 8888 --transpiler scripts/transpile.js src",
+    "open": "open -a \"Google Chrome\" http://localhost:8888?showtime",
     "precommit": "lint-staged",
-    "start": "dvlp --port 8888 --transpiler scripts/transpile.js src"
+    "start": "npm run open && npm run dev -- --silent"
   }
 }
