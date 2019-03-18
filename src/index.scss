@@ -14,16 +14,18 @@
 }
 
 #kurator {
-  display: flex;
-  justify-content: center;
   figure {
+    @include center;
     @include shadow;
-    @include slide(0, 50vw, 0);
+    @include slide(0, 100vw, -50%);
     @include transition;
-    margin: 1vw 2vw;
     overflow: hidden;
-    position: relative;
+    width: 35vw;
+    &:first-of-type {
+      margin-left: -18vw;
+    }
     &:last-of-type {
+      margin-left: 18vw;
       transition-delay: 100ms;
     }
     figcaption {
@@ -32,12 +34,12 @@
   }
   &.step-1 {
     figure {
-      @include slide(1, 0, 0);
+      @include slide(1, -50%, -50%);
     }
   }
   &.hide {
     figure {
-      @include slide(0, -50vw, 0);
+      @include slide(0, -100vw, -50%);
     }
   }
 }
@@ -571,9 +573,11 @@
   }
   figure {
     @include center;
-    @include shadow;
     @include slide(0, 100vw, -50%);
     @include transition;
+    &.server-timing {
+      @include shadow;
+    }
     figcaption {
       top: 0;
       left: 0;

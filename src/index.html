@@ -59,8 +59,8 @@
         <figcaption>Previous</figcaption>
       </figure>
       <footer class="notes">
-        <p class="note">6 months ago...</p>
-        <p class="note step">2 versions: Previous and Next</p>
+        <p class="note">6 months ago: can we re-write?</p>
+        <p class="note step">Only if they look the same. Now 2 versions: Previous and Next</p>
       </footer>
     </section>
 
@@ -74,7 +74,7 @@
         <figcaption>Next</figcaption>
       </figure>
       <footer class="notes">
-        <p class="note">Pixels are the same</p>
+        <p class="note">Pixels look the same</p>
         <p class="note step">Faster</p>
         <p class="note step">Blue</p>
         <p class="note step">Purple</p>
@@ -86,15 +86,14 @@
     <section id="perf">
       <h1>Performance is a <em>feature</em></h1>
       <footer class="notes">
-        <p class="note">Faster => customized</p>
-        <p class="note">Performance is a feature multiplier</p>
+        <p class="note">Sales pitch: faster => personalized</p>
       </footer>
     </section>
 
     <section id="simpler">
       <h1>"reducing complexity is the most important element of software design"</h1>
       <footer class="notes">
-        <p class="note">Make is simpler</p>
+        <p class="note">Real motivation: make less complex. Performance as a side-effect (bivirkning)</p>
       </footer>
     </section>
 
@@ -197,12 +196,13 @@
         </code></pre>
       </div>
       <footer class="notes">
-        <p class="note">Reduce complexity by making things obvious</p>
+        <p class="note">Configuration important opportunity for simplification</p>
+        <p class="note">Reduce complexity by making things obvious (åpenbart)</p>
         <p class="note step">Config.json: all configuration options in one place. Explicit about which values must be supplied by the runtime environment</p>
         <p class="note step">Environment values from /config directory (Kubernetes ConfigMaps) => throw if not set</p>
         <p class="note step">Missing values throw</p>
         <p class="note step">Application has no concept of environment, only configuration</p>
-        <p class="note step">Idea: verbose, but less code not always simpler</p>
+        <p class="note step">Improvement: verbose, but less code not always simpler</p>
       </footer>
     </section>
 
@@ -264,7 +264,7 @@
         <p class="note step">Previous: Nodemon, Babel, and Webpack (middleware) 12000/4000/7000</p>
         <p class="note step">Next: dvlp (+Sass) 2000/2000/10</p>
         <p class="note">Faster, but also simpler: application only aware of config</p>
-        <p class="note step">Also mocking during runtime...</p>
+        <p class="note step">Also mock dependencies during runtime...</p>
         <p class="note step">...and testing</p>
       </footer>
     </section>
@@ -350,8 +350,8 @@
       <footer class="notes">
         <p class="note">Bundling is a production optimization (like minification)</p>
         <p class="note step">Browser loads dependencies</p>
-        <p class="note step">Idiomatic JavaScript + Nodeisms (dvlp)</p>
-        <p class="note step">Server (via dvlp)</p>
+        <p class="note step">Idiomatic JavaScript + Node-isms (dvlp)</p>
+        <p class="note step">Server (dvlp)</p>
         <p class="note step">Code bundled in prod (Rollup.js)</p>
         <p class="note step">Differential bundle loading + polyfills</p>
       </footer>
@@ -417,11 +417,11 @@
         Template rehydration for client-side templates
       </div>
       <footer class="notes">
-        <p class="note">How to render markup?</p>
+        <p class="note">How to render markup (90% static)?</p>
         <p class="note step">lit-html instead of React/JSX (no compile, fast)</p>
-        <p class="note step">Async</p>
+        <p class="note step">Async components</p>
         <p class="note step">Syntax highlighting and formatting (Prettier)</p>
-        <p class="note step">Idea: add rehydration</p>
+        <p class="note step">Improvement: add rehydration</p>
       </footer>
     </section>
 
@@ -496,7 +496,7 @@
         <figcaption>/src/route.js</figcaption>
       </figure>
       <footer class="notes">
-        <p class="note">HTTP is a streaming protocol</p>
+        <p class="note">HTTP is a streaming protocol, but we usually buffer</p>
         <p class="note step">Simple: just pipe</p>
         <p class="note step">Response out the door as fast as possible</p>
         <p class="note step">Challenge: errors & status code</p>
@@ -558,7 +558,7 @@
         <p class="note">Streaming possible due to component data fetching => caching</p>
         <p class="note step">Browser's Cache api + cache strategies</p>
         <p class="note">Includes retry, timeout, backoff, LRU, and request collapsing</p>
-        <p class="note step">Idea: adaptive fetch control</p>
+        <p class="note step">Improvement: adaptive fetch control</p>
       </footer>
     </section>
 
@@ -638,7 +638,7 @@
         <p class="note">EventSource (SSE) simple built-in long-polling protocol (90% browser support)</p>
         <p class="note step">Newsfeed component used Web Sockets and paid millions to Pusher</p>
         <p class="note step">Push only, lightweight</p>
-        <p class="note">VG's SSEHub in Kubernetes (200,000 connections)</p>
+        <p class="note">VG's SSEHub in Kubernetes (200,000+ connections)</p>
       </footer>
     </section>
 
@@ -736,10 +736,10 @@
         <p class="note">Core-Embed host application (micro-frontend)</p>
         <p class="note step">Core-Embed is a contract for embedding trusted content into a web application</p>
         <p class="note step">Packaged or hosted</p>
-        <p class="note step">Stream-friendly: link/script in body, polyfills</p>
-        <p class="note step">Automatic cms integration</p>
+        <p class="note step">Stream-friendly: link/script in body, blocked on polyfills</p>
+        <p class="note step">Automatic CMS integration</p>
         <p class="note">Leverages earlier features: streaming render, component data fetch, data caching, CustomElements, polyfill loading, dependency dedup</p>
-        <p class="note step">Idea: plugins</p>
+        <p class="note step">Improvement: plugins</p>
       </footer>
     </section>
 
