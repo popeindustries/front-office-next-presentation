@@ -415,7 +415,7 @@ if (isNotes) {
     }, 1000);
   } else {
     if (!isShowtime) {
-      document.documentElement.classList.add('dev');
+      // document.documentElement.classList.add('dev');
     }
     if (isLocal) {
       window.addEventListener('popstate', onPopState, false);

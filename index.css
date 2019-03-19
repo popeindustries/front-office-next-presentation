@@ -1,0 +1,1211 @@
+@charset "UTF-8";
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+html {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+nav,
+section,
+summary {
+  display: block;
+}
+
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+a {
+  background: transparent;
+}
+
+b,
+strong {
+  font-weight: bold;
+}
+
+img {
+  border: 0;
+}
+
+svg {
+  overflow: visible;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+button,
+select {
+  text-transform: none;
+}
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('./assets/fonts/AvenirNext-Medium.woff2') format('woff2'),
+    url('./assets/fonts/AvenirNext-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('./assets/fonts/AvenirNext-Heavy.woff2') format('woff2'),
+    url('./assets/fonts/AvenirNext-Heavy.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('./assets/fonts/AvenirNext-Regular.woff2') format('woff2'),
+    url('./assets/fonts/AvenirNext-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Avenir Next';
+  src: url('./assets/fonts/AvenirNext-Bold.woff2') format('woff2'),
+    url('./assets/fonts/AvenirNext-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Hack';
+  src: url('./assets/fonts/Hack-Regular.woff2') format('woff2'),
+    url('./assets/fonts/Hack-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+html,
+body {
+  width: 100vw;
+  height: 200vh;
+}
+
+html {
+  background-color: #fefefe;
+}
+
+body {
+  color: #0b1728;
+  font-family: 'Avenir', sans-serif;
+  font-size: 16px;
+  font-variant: normal;
+  font-weight: 500;
+  overflow: hidden;
+  z-index: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  line-height: normal;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4vw;
+  font-weight: 200;
+  padding: 0 5vw;
+  text-align: center;
+  width: 100%;
+}
+
+h2 {
+  font-size: 3.5vw;
+  font-weight: 600;
+}
+
+p,
+ul,
+ol {
+  font-size: 2.5vw;
+}
+
+section {
+  height: 100%;
+  left: 0;
+  opacity: 1;
+  padding: 1.2vw;
+  position: absolute;
+  top: 0;
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  visibility: hidden;
+  width: 100%;
+}
+.presentation-notes section > .notes {
+  display: block;
+}
+.presentation-notes section > *:not(.notes) {
+  display: none !important;
+}
+section.show {
+  visibility: visible;
+}
+section.hide {
+  visibility: hidden;
+}
+
+code {
+  font-family: 'Hack', monospace;
+  font-size: 90%;
+}
+
+pre {
+  margin: 1vw 2vw 0;
+  width: auto;
+}
+pre code {
+  font-size: 1.5vw;
+  margin: 0 0 0 -6em;
+  padding: 0 !important;
+  background-color: transparent !important;
+  width: auto;
+}
+pre.inline {
+  display: inline-block;
+  margin: 0;
+  vertical-align: top;
+}
+pre.inline code {
+  display: inline-block;
+  margin-left: 0;
+}
+
+figure {
+  margin: 0;
+  padding: 0;
+}
+figure img {
+  display: block;
+  width: 100%;
+}
+
+figcaption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fc2e61;
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+  color: #fefefe;
+  font-size: 1.5vw;
+  padding: 0.25vw 0.5vw;
+  white-space: nowrap;
+}
+
+video {
+  display: block;
+}
+
+.slides {
+  height: 56.25vw;
+  left: 0;
+  position: absolute;
+  transform-origin: top left;
+  top: 0;
+  width: 100%;
+}
+.presentation-notes .slides {
+  height: 100%;
+}
+.dev .slides {
+  border: 1px solid red;
+}
+
+.idea {
+  background-color: #fff8bd;
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+  font-size: 2.5vw;
+  display: inline-block;
+  padding: 2vw 2vw 3vw;
+  max-width: 80vw;
+}
+.idea::before {
+  content: '💡';
+  font-size: 150%;
+  margin: -1vw;
+}
+.idea .code {
+  background-color: #fefefe;
+  border-left-width: 1vw;
+  border-left-style: solid;
+  padding: 0 2vw;
+}
+.idea .code.no {
+  border-left-color: #ff5e46;
+}
+.idea .code.yes {
+  border-left-color: #56eb56;
+}
+
+.clock {
+  color: #0b1728;
+  font-size: 4vw;
+  opacity: 0.25;
+  position: absolute;
+  right: 1vw;
+  top: 0.5vw;
+  z-index: 100;
+}
+
+.notes {
+  background-color: white;
+  bottom: 0;
+  color: #0b1728;
+  display: none;
+  font-family: sans-serif;
+  font-size: 4vw;
+  font-weight: 400;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  right: 0;
+  text-align: left;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+.dev .notes {
+  background-color: transparent;
+  display: block;
+  height: calc(100vh - 56.25vw);
+  line-height: 0.6em;
+  top: 100%;
+}
+
+.note {
+  font-size: inherit;
+  left: 50%;
+  margin: 0;
+  opacity: 0;
+  padding: 0;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  visibility: visible;
+  width: 80%;
+}
+.dev .note {
+  background-color: rgba(255, 255, 255, 0.8);
+  bottom: 0;
+  font-size: 1.8vw;
+  left: 0;
+  top: initial;
+  transform: none;
+  padding: 1em;
+  width: auto;
+}
+
+.note-progress {
+  opacity: 0.3;
+  font-weight: 900;
+}
+
+#title.show {
+  opacity: 1;
+}
+#title.hide {
+  opacity: 0;
+}
+
+#kurator figure {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translate(100vw, -50%);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  overflow: hidden;
+  width: 35vw;
+}
+#kurator figure:first-of-type {
+  margin-left: -18vw;
+}
+#kurator figure:last-of-type {
+  margin-left: 18vw;
+  transition-delay: 100ms;
+}
+#kurator figure figcaption {
+  margin-top: 5vw;
+}
+#kurator.step-1 figure {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#kurator.hide figure {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+
+#front-office figure {
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translate(100vw, 0);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  left: 32.5vw;
+  position: absolute;
+  width: 35vw;
+}
+#front-office figure .highlight {
+  transition: opacity 300ms linear;
+  display: block;
+  opacity: 0;
+  position: absolute;
+}
+#front-office figure .highlight span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fc2e61;
+  color: #fefefe;
+  font-size: 1.5vw;
+  padding: 0.25vw 0.5vw;
+  white-space: nowrap;
+}
+#front-office figure .highlight-house {
+  background-color: rgba(255, 194, 204, 0.5);
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+#front-office figure .highlight-floor {
+  background-color: rgba(86, 62, 218, 0.5);
+  height: 12vw;
+  left: 2.5vw;
+  top: 66%;
+  width: calc(100% - 5vw);
+}
+#front-office figure .highlight-room {
+  background-color: rgba(62, 218, 88, 0.4);
+  height: 12vw;
+  left: 22.5vw;
+  top: 66%;
+  width: 10vw;
+}
+#front-office figure .highlight-newsfeed {
+  background-color: rgba(26, 118, 183, 0.69);
+  height: 3vw;
+  left: 0;
+  text-align: right;
+  top: 3.75%;
+  width: 100%;
+}
+#front-office.show figure {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+#front-office.step-1 .highlight-house {
+  opacity: 1;
+}
+#front-office.step-2 .highlight-floor {
+  opacity: 1;
+}
+#front-office.step-3 .highlight-room {
+  opacity: 1;
+}
+#front-office.step-4 .highlight-newsfeed {
+  opacity: 1;
+}
+#front-office.hide figure {
+  transform: translateX(0);
+}
+#front-office.hide .highlight {
+  opacity: 0;
+}
+
+#front-office-next figure {
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  left: 32.5vw;
+  position: absolute;
+  transform: translateX(0);
+  width: 35vw;
+}
+#front-office-next figure.next {
+  opacity: 0;
+}
+#front-office-next figure figcaption {
+  transition: opacity 300ms linear;
+  margin-top: 5vw;
+  opacity: 0;
+}
+#front-office-next.step-1 .prev {
+  transform: translateX(-19.5vw) scale(1);
+}
+#front-office-next.step-1 .next {
+  opacity: 1;
+  transform: translateX(19.5vw) scale(1);
+}
+#front-office-next.step-1 figcaption {
+  opacity: 1;
+}
+#front-office-next.hide .prev {
+  transform: translateX(-19.5vw) scale(0.01);
+}
+#front-office-next.hide .next {
+  transform: translateX(19.5vw) scale(0.01);
+}
+
+#pixel {
+  display: flex;
+  justify-content: center;
+}
+#pixel figure {
+  margin: 1vw 2vw;
+  position: relative;
+  width: 35vw;
+}
+#pixel figure .pixel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  background-color: #0b1728;
+  height: 1vw;
+  transform-origin: center;
+  width: 1vw;
+}
+#pixel figure .pixel.prev {
+  transition-delay: 250ms;
+}
+#pixel figure figcaption {
+  margin-top: 5vw;
+}
+#pixel.step-1 .pixel {
+  transform: translate(-50%, -50%) scale(4);
+}
+#pixel.step-2 .pixel.next {
+  background-color: #4986d6;
+}
+#pixel.step-3 .pixel.next {
+  background-color: #9e49d6;
+}
+#pixel.step-4 .pixel.next {
+  background-color: #4ed649;
+}
+#pixel.hide {
+  opacity: 0;
+}
+
+#perf,
+#simpler,
+#steps {
+  opacity: 0;
+}
+#perf.show,
+#simpler.show,
+#steps.show {
+  opacity: 1;
+}
+#perf.hide,
+#simpler.hide,
+#steps.hide {
+  opacity: 0;
+}
+
+#book {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+}
+#book img {
+  opacity: 0;
+  transform: translate(100vw, 0);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  height: 100%;
+}
+#book ul {
+  margin: 2vw 3vw;
+  padding: 0;
+}
+#book ul li {
+  transition: opacity 300ms linear;
+  list-style: none;
+  margin: 5vw 0;
+  opacity: 0;
+  font-style: italic;
+}
+#book.show img {
+  opacity: 1;
+  transform: translate(25vw, 0);
+}
+#book.step-1 img {
+  transform: translateX(0);
+}
+#book.step-1 li.one {
+  opacity: 1;
+}
+#book.step-2 li.two {
+  opacity: 1;
+}
+#book.step-3 li.three {
+  opacity: 1;
+}
+#book.hide {
+  opacity: 0;
+}
+
+#config h1 {
+  transition: opacity 300ms linear;
+  opacity: 0;
+}
+#config figure,
+#config .idea {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  opacity: 0;
+  transform: translate(100vw, -50%);
+}
+#config figure figcaption,
+#config .idea figcaption {
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
+}
+#config.show h1 {
+  opacity: 1;
+}
+#config.step-1 h1 {
+  opacity: 0;
+}
+#config.step-1 .config-json {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#config.step-2 .config-json {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#config.step-2 .config-dir {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#config.step-3 .config-dir {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#config.step-3 .config-js {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#config.step-4 .config-js {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#config.step-4 .config-node-env {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#config.step-5 .config-node-env {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#config.step-5 .idea {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#config.hide .idea {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+
+#dev-env h1 {
+  transition: opacity 300ms linear;
+  opacity: 0;
+}
+#dev-env figure {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+#dev-env figure:not(.video) {
+  opacity: 0;
+  transform: translate(100vw, -50%);
+}
+#dev-env figure:not(.video) figcaption {
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
+}
+#dev-env figure.video {
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+  transition: opacity 300ms linear;
+  max-width: 1100px;
+  opacity: 0;
+  width: 80vw;
+}
+#dev-env figure.video video {
+  visibility: hidden;
+  width: 100%;
+}
+#dev-env.show h1 {
+  opacity: 1;
+}
+#dev-env.step-1 h1 {
+  opacity: 0;
+}
+#dev-env.step-1 .video-prev {
+  opacity: 1;
+}
+#dev-env.step-1 .video-prev video {
+  visibility: visible;
+}
+#dev-env.step-2 .video-prev {
+  opacity: 0;
+}
+#dev-env.step-2 .video-prev video {
+  visibility: hidden;
+}
+#dev-env.step-2 .video-next {
+  opacity: 1;
+}
+#dev-env.step-2 .video-next video {
+  visibility: visible;
+}
+#dev-env.step-3 .video-next {
+  opacity: 0;
+}
+#dev-env.step-3 .video-next video {
+  visibility: hidden;
+}
+#dev-env.step-3 .mock {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#dev-env.step-4 .mock {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#dev-env.step-4 .test {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#dev-env.hide .test {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+
+#modules h1 {
+  transition: opacity 300ms linear;
+  opacity: 0;
+}
+#modules figure {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  opacity: 0;
+  transform: translate(100vw, -50%);
+}
+#modules figure img {
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+  width: 58vw;
+}
+#modules figure figcaption {
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
+}
+#modules.show h1 {
+  opacity: 1;
+}
+#modules.step-1 h1 {
+  opacity: 0;
+}
+#modules.step-1 .waterfall {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#modules.step-2 .waterfall {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#modules.step-2 .nodeisms {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#modules.step-3 .nodeisms {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#modules.step-3 .server {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#modules.step-4 .server {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#modules.step-4 .bundle {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#modules.step-5 .bundle {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#modules.step-5 .load {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#modules.hide .load {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+
+#templates h1 {
+  transition: opacity 300ms linear;
+  opacity: 0;
+}
+#templates figure,
+#templates .idea {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transform: translate(100vw, -50%);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+#templates figure figcaption,
+#templates .idea figcaption {
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
+}
+#templates figure.highlight,
+#templates .idea.highlight {
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+}
+#templates .idea {
+  width: 65vw;
+}
+#templates.show h1 {
+  opacity: 1;
+}
+#templates.step-1 h1 {
+  opacity: 0;
+}
+#templates.step-1 .layout {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#templates.step-2 .layout {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#templates.step-2 .component {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#templates.step-3 .component {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#templates.step-3 .highlight {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#templates.step-4 .highlight {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#templates.step-4 .idea {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#templates.hide .idea {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+
+#streaming h1 {
+  transition: opacity 300ms linear;
+  opacity: 0;
+}
+#streaming figure {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transform: translate(100vw, -50%);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+#streaming figure.server-timing {
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+}
+#streaming figure figcaption {
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
+}
+#streaming.show h1 {
+  opacity: 1;
+}
+#streaming.step-1 h1 {
+  opacity: 0;
+}
+#streaming.step-1 .pipe {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#streaming.step-2 .pipe {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#streaming.step-2 .server-timing {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#streaming.step-3 .server-timing {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#streaming.step-3 .error {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#streaming.step-4 .error {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#streaming.step-4 .buffer {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#streaming.hide .buffer {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+
+#cache h1 {
+  transition: opacity 300ms linear;
+  opacity: 0;
+}
+#cache figure,
+#cache .idea {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transform: translate(100vw, -50%);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+#cache figure figcaption,
+#cache .idea figcaption {
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
+}
+#cache.show h1 {
+  opacity: 1;
+}
+#cache.step-1 h1 {
+  opacity: 0;
+}
+#cache.step-1 .agent {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#cache.step-2 .agent {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#cache.step-2 .idea {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#cache.hide .idea {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+
+#custom-elements h1 {
+  transition: opacity 300ms linear;
+  opacity: 0;
+}
+#custom-elements figure {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#custom-elements figure:not(.video) {
+  opacity: 0;
+  transform: translate(100vw, -50%);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+#custom-elements figure.video {
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+  transition: opacity 300ms linear;
+  max-width: 1000px;
+  opacity: 0;
+  width: 50vw;
+}
+#custom-elements figure.video video {
+  visibility: hidden;
+  width: 100%;
+}
+#custom-elements figure figcaption {
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
+}
+#custom-elements.show h1 {
+  opacity: 1;
+}
+#custom-elements.step-1 h1 {
+  opacity: 0;
+}
+#custom-elements.step-1 .markup {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#custom-elements.step-2 .markup {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#custom-elements.step-2 .base-element {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#custom-elements.step-3 .base-element {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#custom-elements.step-3 .video {
+  opacity: 1;
+}
+#custom-elements.step-3 .video video {
+  visibility: visible;
+}
+#custom-elements.hide .video {
+  opacity: 0;
+}
+#custom-elements.hide .video video {
+  visibility: hidden;
+}
+
+#sse h1 {
+  opacity: 0;
+  transition: opacity 300ms linear;
+}
+#sse img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translate(100vw, -50%);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  width: 80vw;
+}
+#sse figure {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transform: translate(100vw, -50%);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+#sse figure figcaption {
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
+}
+#sse.show h1 {
+  opacity: 1;
+}
+#sse.step-1 h1 {
+  opacity: 0;
+}
+#sse.step-1 img {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#sse.step-2 img {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#sse.step-2 figure.es {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#sse.hide figure.es {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+
+#embed h1 {
+  transition: opacity 300ms linear;
+  opacity: 0;
+}
+#embed figure,
+#embed .idea {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transform: translate(100vw, -50%);
+  transition: all 400ms cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+#embed figure.backoffice,
+#embed .idea.backoffice {
+  box-shadow: 0px 5px 20px 5px rgba(0, 0, 0, 0.2);
+}
+#embed figure.backoffice img,
+#embed .idea.backoffice img {
+  left: 50%;
+  width: 40vw;
+}
+#embed figure figcaption,
+#embed .idea figcaption {
+  top: 0;
+  left: 0;
+  transform: translate(0, 0);
+}
+#embed .idea {
+  width: 80vw;
+}
+#embed.show h1 {
+  opacity: 1;
+}
+#embed.step-1 h1 {
+  opacity: 0;
+}
+#embed.step-1 .manifest {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#embed.step-2 .manifest {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#embed.step-2 .embedroom {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#embed.step-3 .embedroom {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#embed.step-3 .markup {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#embed.step-4 .markup {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#embed.step-4 .backoffice {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#embed.step-5 .backoffice {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+#embed.step-5 .idea {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+#embed.hide .idea {
+  opacity: 0;
+  transform: translate(-100vw, -50%);
+}
+
+#done h1 {
+  transition: opacity 300ms linear;
+  opacity: 0;
+}
+#done ul {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: -1vw;
+  padding: 0;
+}
+#done ul li {
+  transition: opacity 300ms linear;
+  list-style: none;
+  opacity: 0;
+  padding: 2vw 0;
+  text-align: center;
+}
+#done.show h1 {
+  opacity: 1;
+}
+#done.step-1 h1 {
+  opacity: 0;
+}
+#done.step-1 .one {
+  opacity: 1;
+}
+#done.step-2 .two {
+  opacity: 1;
+}
+#done.step-3 .three {
+  opacity: 1;
+}
+#done.step-4 .four {
+  opacity: 1;
+}
+#done.step-5 .five {
+  opacity: 1;
+}

@@ -19,7 +19,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "dvlp --port 8888 --transpiler scripts/transpile.js src",
+    "build": "sass --no-source-map src/index.scss docs/index.css",
+    "dev": "dvlp --port 8888 --transpiler scripts/transpile.js .",
     "open": "open -a \"Google Chrome\" http://localhost:8888?showtime",
     "precommit": "lint-staged",
     "start": "npm run open && npm run dev -- --silent"
